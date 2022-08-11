@@ -4,9 +4,16 @@ using UnityEngine;
 
 namespace AOP.DataCenter
 {
-    [CreateAssetMenu(menuName ="AOP/Data/PrefabSO",fileName ="AOP-Data-"+nameof(PrefabsSO))]
-    public class PrefabsSO : IGameSO
+    [CreateAssetMenu(menuName = "AOP/Data/PrefabSO", fileName = "AOP-Data-" + nameof(PrefabsSO))]
+    public class PrefabsSO : IPrefabsContainerSO
     {
-        public InGamePrefabsSO InGamePrefabsSO;
+        [SerializeField] private List<IPrefabsContainerSO> registerPrefabContainerSOList;
+    
+        [SerializeField]private InGamePrefabsSO InGamePrefabsSO;
+
+        public override void RegisterPrefabs()
+        {
+            registerPrefabContainerSOList.ForEach(x => x.RegisterPrefabs());
+        }
     }
 }

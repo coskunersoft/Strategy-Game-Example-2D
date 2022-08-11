@@ -6,6 +6,7 @@ namespace AOP.GridSystem
 {
     public enum CellGroundType
     {
-
+        Grass=0,
+        Water=1,
     }
 }

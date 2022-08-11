@@ -1,18 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AOP.ObjectPooling;
+using AOP.DataCenter;
 
-public class GridWorldCell : MonoBehaviour
+namespace AOP.GridSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    [RequireComponent(typeof(SpriteRenderer))]
+    public class GridWorldCell : MonoBehaviour, IObjectCampMember
     {
-        
-    }
+        private SpriteRenderer spriteRenderer;
+        private CellGroundType cellGroundType;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Awake()
+        {
+            TryGetComponent(out spriteRenderer);
+        }
+
+        public void Apply(CellGroundType cellGroundType,Vector3 cellPosition)
+        {
+            this.cellGroundType = cellGroundType;
+            transform.position = cellPosition;
+
+            var configurationSO = ObjectCamp.PullScriptable<GridConfigurationSO>();
+            var findedSpriteMap = configurationSO.cellGroundTypeSpriteMaps.Find(x => x.CellGroundType == cellGroundType);
+            spriteRenderer.sprite = findedSpriteMap.sprite;
+        }
     }
 }

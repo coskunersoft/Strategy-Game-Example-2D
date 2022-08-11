@@ -1,23 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AOP.ObjectPooling;
 
 namespace AOP.GridSystem
 {
     public class GridCell
     {
-        private CellGroundType cellGroundType;
-        public CellGroundType CellGroundType { get;private set; }
+        public CellGroundType cellGroundType { get;private set; }
+        private GridWorldCell gridWorldCell;
+        private Vector2 cellPosition;
         
-        public void SelectGroundType(CellGroundType cellGroundType)
+        public void Apply(CellGroundType cellGroundType,Vector2 cellPosition)
         {
-            CellGroundType = cellGroundType;
+            this.cellGroundType = cellGroundType;
+            this.cellPosition = cellPosition;
             Visualize();
         }
-
-        public void Visualize()
+        private async void Visualize()
         {
-
+            if (!gridWorldCell)
+            {
+                var task = ObjectCamp.PullObject<GridWorldCell>(PoolStaticVariations.VARIATION1);
+                await task;
+                gridWorldCell = task.Result;
+            }
+            gridWorldCell.Apply(cellGroundType, cellPosition);
         }
+        public static implicit operator GridWorldCell(GridCell grid)=>grid.gridWorldCell;
     }
 }

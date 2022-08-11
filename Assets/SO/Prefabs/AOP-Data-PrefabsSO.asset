@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2e60be04ab54f5a9374f6c02996962, type: 3}
   m_Name: AOP-Data-PrefabsSO
   m_EditorClassIdentifier: 
-  InGamePrefabsSO: {fileID: 0}
+  registerPrefabContainerSOList:
+  - {fileID: 11400000, guid: 1ba2417b3492d4ec782e753a280a1ece, type: 2}
+  InGamePrefabsSO: {fileID: 11400000, guid: 1ba2417b3492d4ec782e753a280a1ece, type: 2}
