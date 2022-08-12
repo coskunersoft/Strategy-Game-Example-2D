@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AOP.Management.Scene
+namespace AOP.Management
 {
     public class SceneManager : IManager
     {

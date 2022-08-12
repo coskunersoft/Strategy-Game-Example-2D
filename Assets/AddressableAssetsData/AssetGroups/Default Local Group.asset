@@ -21,6 +21,14 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/InGame/Environment/GridWorldCell.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 5b92cdb232f0647be95a1dd2a80dc9bb
+    m_Address: Assets/Prefabs/UI/Windows/EntryWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 66c7f0553dffe4909bc4b5a463b37e02
+    m_Address: Assets/Prefabs/UI/Windows/LoadingWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: daf257986c55f45ef8a1328de60fa450, type: 2}
   m_SchemaSet:

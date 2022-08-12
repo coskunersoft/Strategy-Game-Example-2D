@@ -10,7 +10,7 @@ namespace AOP.DataCenter
     {
         public AssetReference GridWorldCellPrefab;
 
-        public override void RegisterPrefabs()
+        public override void RegisterPrefabsToPool()
         {
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(GridWorldCell), GridWorldCellPrefab, PoolStaticVariations.VARIATION1));
         }

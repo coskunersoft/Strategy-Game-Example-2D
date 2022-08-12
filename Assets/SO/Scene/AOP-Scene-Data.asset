@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   masterSceneMaps:
   - sceneType: 0
-    SceneName: 
+    SceneName: Entry
+  - sceneType: 1
+    SceneName: Menu
+  - sceneType: 2
+    SceneName: Game

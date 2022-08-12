@@ -6,6 +6,6 @@ namespace AOP.DataCenter
 {
     public abstract class IPrefabsContainerSO:IGameSO
     {
-        public abstract void RegisterPrefabs();
+        public abstract void RegisterPrefabsToPool();
     }
 }
