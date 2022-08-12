@@ -5,7 +5,6 @@ using UnityEngine.AddressableAssets;
 
 namespace AOP.DataCenter
 {
-
     [CreateAssetMenu(menuName = "AOP/Data/InGamePrefabSO", fileName = "AOP-Data-" + nameof(InGamePrefabsSO))]
     public class InGamePrefabsSO : IPrefabsContainerSO
     {

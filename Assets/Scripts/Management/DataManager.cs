@@ -7,10 +7,11 @@ using AOP.ObjectPooling;
 
 namespace AOP.Management
 {
-    public class DataHolder : IManager
+    public class DataManager : IManager
     {
         [SerializeField]private List<IGameSO> RegisterGameSOList;
         public PrefabsSO prefabsSO;
+        
         
         public override IEnumerator Init()
         {

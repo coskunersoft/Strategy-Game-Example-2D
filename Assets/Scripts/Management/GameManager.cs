@@ -2,31 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AOP.GridSystem;
+using AOP.GamePlay;
 
 namespace AOP.Management
 {
     public class GameManager : MonoBehaviour
     {
         public List<IManager> SubManagers;
-
-        private GameGrid gameGrid;
+        private GameSquance CurrentGameSquance;
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
             StartCoroutine(GameInit());
-        }
-
-        private void Start()
-        {
-            gameGrid = new GameGrid(10,new Vector2(0,0));
         }
 
         private IEnumerator GameInit()
         {
             foreach (var item in SubManagers)
                 yield return item.Init();
+        }
 
-
+        public void LoadGame()
+        {
+            CurrentGameSquance = new GameSquance();
+            CurrentGameSquance.Init();
         }
     }
 }

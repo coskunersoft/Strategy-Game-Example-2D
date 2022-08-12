@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SubManagers:
-  - {fileID: 1222566665}
+  - {fileID: 0}
 --- !u!1 &760198856
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 1222566664}
   - component: {fileID: 1222566665}
   m_Layer: 0
-  m_Name: DataHolder
+  m_Name: DataManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -457,11 +457,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1222566663}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09bfff78e35f94e77a4f84d34d376807, type: 3}
+  m_Script: {fileID: 11500000, guid: bf36ab7ac980d47a3a36937ad520b381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RegisterGameSOList:
   - {fileID: 11400000, guid: ca83aa7639dbb4c99a9bb624963e1e9b, type: 2}
+  - {fileID: 11400000, guid: c9dea2e7683b646e8b3a630370fef42f, type: 2}
   - {fileID: 11400000, guid: 0775f3882b5104da681b56fe58444131, type: 2}
   prefabsSO: {fileID: 11400000, guid: 0775f3882b5104da681b56fe58444131, type: 2}
 --- !u!1 &1445805179
