@@ -9,5 +9,7 @@ namespace AOP.UI
         public const string EntryWindow = nameof(EntryWindow);
         public const string MainMenuWindow = nameof(MainMenuWindow);
         public const string LoadingWindow = nameof(LoadingWindow);
+        public const string InGameWindow = nameof(InGameWindow);
+
     }
 }

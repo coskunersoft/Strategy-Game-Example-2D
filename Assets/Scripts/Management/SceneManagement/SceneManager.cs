@@ -22,10 +22,15 @@ namespace AOP.Management
         {
             SceneOfficer.sceneLoaded += SceneOfficer_SceneLoaded;
             Events.GeneralEvents.OnGameInitializationStep += OnGameInitializationStep;
+            Events.GeneralEvents.OnLevelLoadingStarted += OnLevelLoadingStarted;
+
         }
         private void OnDisable()
         {
             SceneOfficer.sceneLoaded -= SceneOfficer_SceneLoaded;
+            Events.GeneralEvents.OnGameInitializationStep -= OnGameInitializationStep;
+            Events.GeneralEvents.OnLevelLoadingStarted -= OnLevelLoadingStarted;
+
         }
         public void LoadScene(MasterSceneType masterSceneType)
         {
@@ -34,6 +39,7 @@ namespace AOP.Management
             SceneOfficer.LoadScene(masterSceneMap.SceneName, LoadSceneMode.Single);
             Events.SceneEvents.OnAnyMasterSceneLoadingStarted?.Invoke(masterSceneType);
         }
+        #region Event Listeners
         private void SceneOfficer_SceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)
         {
             var sceneDataSO = ObjectCamp.PullScriptable<SceneDataSO>();
@@ -52,5 +58,10 @@ namespace AOP.Management
                     break;
             }
         }
+        private void OnLevelLoadingStarted(GameLevelSO gameLevelSO)
+        {
+            LoadScene(MasterSceneType.Game);
+        }
+        #endregion
     }
 }

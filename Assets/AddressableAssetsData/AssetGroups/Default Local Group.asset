@@ -37,6 +37,14 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/UI/Items/UI-GameLevel-Item.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 5bc9da193ca254652955076392273797
+    m_Address: Assets/Prefabs/UI/Windows/InGameWindow .prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b17691c85504f44e787a89d2e05fbe66
+    m_Address: Assets/Prefabs/InGame/Environment/InGameEnvironment.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: daf257986c55f45ef8a1328de60fa450, type: 2}
   m_SchemaSet:

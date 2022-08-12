@@ -15,9 +15,6 @@ namespace AOP.UI
         {
             switch (ID)
             {
-                case 0://Continue
-                    Events.UIEvents.OnManinMenuContinueButtonClick?.Invoke();
-                    break;
                 case 1://New Game
                     Events.UIEvents.OnMainMenuNewGameButtonClick?.Invoke();
                     break;

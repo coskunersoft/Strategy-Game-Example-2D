@@ -15,6 +15,7 @@ namespace AOP.DataCenter
         public AssetReference EntryWindowReferance;
         public AssetReference MainMenuWindowReferance;
         public AssetReference LoadingWindowReferance;
+        public AssetReference InGameWindowReferance;
 
         public AssetReference UILevelItemReferance;
 
@@ -23,6 +24,7 @@ namespace AOP.DataCenter
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(IUIWindow), EntryWindowReferance, WindowTitles.EntryWindow));
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(IUIWindow), MainMenuWindowReferance, WindowTitles.MainMenuWindow));
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(IUIWindow), LoadingWindowReferance, WindowTitles.LoadingWindow));
+            ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(IUIWindow), InGameWindowReferance, WindowTitles.InGameWindow));
 
 
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(UIGameLevelItem), UILevelItemReferance));

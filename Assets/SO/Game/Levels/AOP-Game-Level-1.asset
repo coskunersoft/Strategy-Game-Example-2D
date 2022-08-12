@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31af4970b1ce340b793a3a21231fe86a, type: 3}
   m_Name: AOP-Game-Level-1
   m_EditorClassIdentifier: 
+  LevelID: Level-1
   LevelIcon: {fileID: 1730481218, guid: 97c8614a3e1fc4a9683fb1d21993e293, type: 3}
   LevelTitle: Sea Rush
+  GridSize: 20

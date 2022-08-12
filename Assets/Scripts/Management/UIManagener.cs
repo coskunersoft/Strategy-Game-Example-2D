@@ -68,7 +68,6 @@ namespace AOP.Management
         {
             switch (step)
             {
-
                 case GameInitiazationSteps.GameAwake:
                     ShowHideLoadingWindow(true);
                     break;
@@ -88,6 +87,9 @@ namespace AOP.Management
             {
                 case MasterSceneType.Menu:
                     LoadMasterWindow(WindowTitles.MainMenuWindow);
+                    break;
+                case MasterSceneType.Game:
+                    LoadMasterWindow(WindowTitles.InGameWindow);
                     break;
             }
         }

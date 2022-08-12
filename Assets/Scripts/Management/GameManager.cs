@@ -7,7 +7,7 @@ using AOP.ObjectPooling;
 using UnityEngine.AddressableAssets;
 using AOP.EventFactory;
 using AOP.FunctionFactory;
-
+using AOP.DataCenter;
 
 namespace AOP.Management
 {
@@ -26,10 +26,13 @@ namespace AOP.Management
         private void OnEnable()
         {
             Functions.General.RunCourotineInCenter += RunCourotineInCenter;
+            Events.UIEvents.OnGameLevelSelectedButtonClick += OnGameLevelSelectedButtonClick;
         }
         private void OnDisable()
         {
             Functions.General.RunCourotineInCenter -= RunCourotineInCenter;
+            Events.UIEvents.OnGameLevelSelectedButtonClick -= OnGameLevelSelectedButtonClick;
+
         }
         #endregion
 
@@ -46,19 +49,21 @@ namespace AOP.Management
             Events.GeneralEvents.OnGameInitializationStep?.Invoke(GameInitiazationSteps.GameInitializationDone);
         }
 
-        public void LoadGame()
+        public void LoadLevel(GameLevelSO gameLevelSO)
         {
             CurrentGameSquance = new GameSquance();
-            CurrentGameSquance.Init();
-
+            StartCoroutine(CurrentGameSquance.Init(gameLevelSO));
         }
         #endregion
 
         #region Event/Function Listeners
         private void RunCourotineInCenter(IEnumerator enumerator)
         {
-            Debug.Log("Hit");
             StartCoroutine(enumerator);
+        }
+        private void OnGameLevelSelectedButtonClick(GameLevelSO gameLevelSO)
+        {
+            LoadLevel(gameLevelSO);
         }
         #endregion
 

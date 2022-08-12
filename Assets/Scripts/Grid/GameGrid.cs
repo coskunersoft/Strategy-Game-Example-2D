@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AOP.DataCenter;
+using AOP.ObjectPooling;
 using UnityEngine;
 
 namespace AOP.GridSystem
@@ -8,9 +10,9 @@ namespace AOP.GridSystem
     {
         private readonly GridCell[,] cells;
 
-        public GameGrid(int GridSize,Vector2 startPosition)
+        public GameGrid(GridConfigurationSO configurationSO, int GridSize,Vector2 gridCenterPoint)
         {
-            Vector2 pos = startPosition;
+            Vector2 pos = gridCenterPoint;
             cells = new GridCell[GridSize, GridSize];
             for (int i = 0; i < GridSize; i++)
             {
@@ -18,10 +20,10 @@ namespace AOP.GridSystem
                 {
                     cells[i, j] = new GridCell();
                     cells[i, j].Apply(CellGroundType.Grass, pos);
-                    pos.x += 1;
+                    pos.x += configurationSO.GridCellDistance;
                 }
-                pos.x = startPosition.x;
-                pos.y += 1;
+                pos.x = gridCenterPoint.x;
+                pos.y += configurationSO.GridCellDistance;
             }
         }
     }

@@ -17,3 +17,8 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  InGameEnvironmentPrefab:
+    m_AssetGUID: b17691c85504f44e787a89d2e05fbe66
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

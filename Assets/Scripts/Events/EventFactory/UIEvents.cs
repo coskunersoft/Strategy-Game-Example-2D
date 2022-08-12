@@ -1,4 +1,5 @@
 using System;
+using AOP.DataCenter;
 using AOP.UI.Windows;
 using UnityEngine;
 
@@ -15,10 +16,11 @@ namespace AOP.EventFactory
             public static Action<IUISubWindow> OnAnySubWindowShow;
 
             public static Action OnAnyButtonClick;
-            public static Action OnManinMenuContinueButtonClick;
             public static Action OnMainMenuNewGameButtonClick;
             public static Action OnMainMenuExitButtonClick;
             public static Action OnNewGameMenuBackButtonClick;
+
+            public static Action<GameLevelSO> OnGameLevelSelectedButtonClick;
         }
     }
 }
