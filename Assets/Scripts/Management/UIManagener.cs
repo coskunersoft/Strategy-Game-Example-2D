@@ -5,6 +5,7 @@ using AOP.EventFactory;
 using AOP.UI.Windows;
 using AOP.ObjectPooling;
 using AOP.UI;
+using AOP.Management.Scene;
 
 namespace AOP.Management
 {
@@ -13,22 +14,56 @@ namespace AOP.Management
         [SerializeField]private LoadingWindow loadingWindow;
         private IUIWindow currentMasterWindow;
 
-
         public override IEnumerator Init()
         {
             ShowHideLoadingWindow(true);
             yield return null;
         }
 
+        #region Mono Functions
         private void OnEnable()
         {
-            Events.General.OnGameInitializationStep += OnGameInitializationStep;
+            Events.GeneralEvents.OnGameInitializationStep += OnGameInitializationStep;
+            Events.SceneEvents.OnAnyMasterSceneLoadingStarted += OnAnyMasterSceneLoadingStarted;
+            Events.SceneEvents.OnAnyMasterSceneLoadingCompeted += OnAnyMasterSceneLoadingCompeted;
         }
         private void OnDisable()
         {
-            Events.General.OnGameInitializationStep -= OnGameInitializationStep;
+            Events.GeneralEvents.OnGameInitializationStep -= OnGameInitializationStep;
+            Events.SceneEvents.OnAnyMasterSceneLoadingStarted -= OnAnyMasterSceneLoadingStarted;
+            Events.SceneEvents.OnAnyMasterSceneLoadingCompeted -= OnAnyMasterSceneLoadingStarted;
         }
+        #endregion
 
+        #region UI Manager Bussines
+        private void ShowHideLoadingWindow(bool status)
+        {
+            if (status)
+            {
+                if (loadingWindow.isDisplaying) return;
+                loadingWindow.Show(hitEvent: true, animated: false);
+            }
+            else
+            {
+                loadingWindow.Hide(hitEvent: true, animated: false);
+            }
+        }
+        private async void LoadMasterWindow(string WindowTitle)
+        {
+            if (currentMasterWindow)
+            {
+                currentMasterWindow.Hide();
+                currentMasterWindow = null;
+            }
+            var task = ObjectCamp.PullObject<IUIWindow>(variation: WindowTitle);
+            await task;
+            currentMasterWindow = task.Result;
+            currentMasterWindow.Show(true);
+            ShowHideLoadingWindow(false);
+        }
+        #endregion
+
+        #region Event Listeners
         private void OnGameInitializationStep(int step)
         {
             switch (step)
@@ -37,42 +72,28 @@ namespace AOP.Management
                 case GameInitiazationSteps.GameAwake:
                     ShowHideLoadingWindow(true);
                     break;
-                case GameInitiazationSteps.ShowEntiyWindow:
+                case GameInitiazationSteps.ShowEntryWindow:
                     LoadMasterWindow(WindowTitles.EntryWindow);
                     break;
-                case GameInitiazationSteps.EndEntityWindow:
-                    
+            }
+        }
+        private void OnAnyMasterSceneLoadingStarted(MasterSceneType masterSceneType)
+        {
+            ShowHideLoadingWindow(true);
+        }
+        private void OnAnyMasterSceneLoadingCompeted(MasterSceneType masterSceneType)
+        {
+            ShowHideLoadingWindow(false);
+            switch (masterSceneType)
+            {
+                case MasterSceneType.Menu:
+                    LoadMasterWindow(WindowTitles.MainMenuWindow);
                     break;
             }
         }
+        #endregion
 
-        private void ShowHideLoadingWindow(bool status)
-        {
-            if (status)
-            {
-                if (loadingWindow.isDisplaying) return;
-                loadingWindow.Show(hitEvent:true, animated:false);
-            }
-            else
-            {
-                loadingWindow.Hide(hitEvent: true, animated:false);
-            }
-        }
 
-        private async void LoadMasterWindow(string WindowTitle) 
-        {
-            ShowHideLoadingWindow(true);
-            if (currentMasterWindow)
-            {
-                currentMasterWindow.Hide();
-                currentMasterWindow = null;
-            }
-            var task= ObjectCamp.PullObject<IUIWindow>(variation:WindowTitle);
-            await task;
-            currentMasterWindow = task.Result;
-            currentMasterWindow.Show(true);
-            ShowHideLoadingWindow(false);
-        }
     }
 }
 

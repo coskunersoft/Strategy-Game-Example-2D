@@ -416,6 +416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102f849efb1be47338059e1b9468f8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SubWindows: []
   canvasGroup: {fileID: 0}
   isDisplaying: 0
+  SubWindows: []

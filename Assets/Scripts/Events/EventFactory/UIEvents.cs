@@ -1,0 +1,25 @@
+using System;
+using AOP.UI.Windows;
+using UnityEngine;
+
+namespace AOP.EventFactory
+{
+    public static partial class Events
+    {
+        public static class UIEvents
+        {
+           
+            public static Action<IUIWindow> OnAnyMasterWindowShow;
+            public static Action<IUIWindow> OnAnyMasterWindowHide;
+            public static Action<IUISubWindow> OnAnySubWindowHide;
+            public static Action<IUISubWindow> OnAnySubWindowShow;
+
+            public static Action OnAnyButtonClick;
+            public static Action OnManinMenuContinueButtonClick;
+            public static Action OnMainMenuNewGameButtonClick;
+            public static Action OnMainMenuExitButtonClick;
+            public static Action OnNewGameMenuBackButtonClick;
+        }
+    }
+}
+

@@ -139,7 +139,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!114 &6416175994189148348
 MonoBehaviour:
@@ -189,7 +189,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6416175994189148350}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -205,9 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f3d1f6a5e859484e9d577e67f4d3279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SubWindows: []
   canvasGroup: {fileID: 0}
   isDisplaying: 0
+  SubWindows: []
   LodingIcon: {fileID: 3311046014944753795}
 --- !u!1 &6416175994776756126
 GameObject:

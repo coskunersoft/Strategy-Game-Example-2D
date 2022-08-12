@@ -6,6 +6,8 @@ using AOP.GamePlay;
 using AOP.ObjectPooling;
 using UnityEngine.AddressableAssets;
 using AOP.EventFactory;
+using AOP.FunctionFactory;
+
 
 namespace AOP.Management
 {
@@ -14,27 +16,34 @@ namespace AOP.Management
         public List<IManager> SubManagers;
         private GameSquance CurrentGameSquance;
 
-
+        #region Mono Functions
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
             StartCoroutine(GameInitialization());
 
         }
+        private void OnEnable()
+        {
+            Functions.General.RunCourotineInCenter += RunCourotineInCenter;
+        }
+        private void OnDisable()
+        {
+            Functions.General.RunCourotineInCenter -= RunCourotineInCenter;
+        }
+        #endregion
 
+        #region GameManager Bussiness
         private IEnumerator GameInitialization()
         {
-            Events.General.OnGameInitializationStep?.Invoke(GameInitiazationSteps.GameAwake);
+            Events.GeneralEvents.OnGameInitializationStep?.Invoke(GameInitiazationSteps.GameAwake);
 
             foreach (var item in SubManagers)
                 yield return item.Init();
 
-            Events.General.OnGameInitializationStep?.Invoke(GameInitiazationSteps.ShowEntiyWindow);
-            yield return new WaitForSeconds(10);
-            Events.General.OnGameInitializationStep?.Invoke(GameInitiazationSteps.EndEntityWindow);
-
-        
-
+            Events.GeneralEvents.OnGameInitializationStep?.Invoke(GameInitiazationSteps.ShowEntryWindow);
+            yield return new WaitForSeconds(3);
+            Events.GeneralEvents.OnGameInitializationStep?.Invoke(GameInitiazationSteps.GameInitializationDone);
         }
 
         public void LoadGame()
@@ -43,7 +52,16 @@ namespace AOP.Management
             CurrentGameSquance.Init();
 
         }
+        #endregion
 
-      
+        #region Event/Function Listeners
+        private void RunCourotineInCenter(IEnumerator enumerator)
+        {
+            Debug.Log("Hit");
+            StartCoroutine(enumerator);
+        }
+        #endregion
+
+
     }
 }

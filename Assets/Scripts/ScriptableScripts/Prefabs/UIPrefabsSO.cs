@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using AOP.ObjectPooling;
 using AOP.UI;
+using AOP.UI.Items;
 using AOP.UI.Windows;
 
 namespace AOP.DataCenter
@@ -15,11 +16,17 @@ namespace AOP.DataCenter
         public AssetReference MainMenuWindowReferance;
         public AssetReference LoadingWindowReferance;
 
+        public AssetReference UILevelItemReferance;
+
         public override void RegisterPrefabsToPool()
         {
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(IUIWindow), EntryWindowReferance, WindowTitles.EntryWindow));
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(IUIWindow), MainMenuWindowReferance, WindowTitles.MainMenuWindow));
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(IUIWindow), LoadingWindowReferance, WindowTitles.LoadingWindow));
+
+
+            ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(UIGameLevelItem), UILevelItemReferance));
+
         }
     }
 }

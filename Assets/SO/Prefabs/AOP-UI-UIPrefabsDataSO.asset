@@ -18,12 +18,17 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   MainMenuWindowReferance:
-    m_AssetGUID: 
+    m_AssetGUID: e08adef6963bf4d318b35f6ff149230b
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   LoadingWindowReferance:
     m_AssetGUID: 66c7f0553dffe4909bc4b5a463b37e02
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  UILevelItemReferance:
+    m_AssetGUID: 93e05c7d2788d452d81d7fef1451f551
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
