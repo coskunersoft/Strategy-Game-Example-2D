@@ -12,7 +12,7 @@ namespace AOP.ObjectPooling
         public readonly IGameSO gameSO;
         public readonly string variation;
 
-        public TypeScriptableObjectMap(Type type,IGameSO gameSO,string variation)
+        public TypeScriptableObjectMap(Type type, IGameSO gameSO,string variation)
         {
             this.type = type;
             this.gameSO = gameSO;

@@ -14,7 +14,6 @@ namespace AOP.UI.Windows
         [FoldoutGroup("Window Variables")][SerializeField] protected List<IUISubWindow> SubWindows;
        
         
-        
         public virtual List<IUISubWindow> CurrentSubWindow()
         {
             if (SubWindows.Count <= 0) return null;

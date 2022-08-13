@@ -15,3 +15,4 @@ MonoBehaviour:
   registerPrefabContainerSOList:
   - {fileID: 11400000, guid: 1ba2417b3492d4ec782e753a280a1ece, type: 2}
   - {fileID: 11400000, guid: b8231334de76d4f47a8a06f5d8e6a51a, type: 2}
+  - {fileID: 11400000, guid: 42be8f13ee0a84df794243e12af1715e, type: 2}

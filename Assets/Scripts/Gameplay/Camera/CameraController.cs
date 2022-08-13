@@ -31,6 +31,7 @@ namespace AOP.GamePlay.CameraControl
             CameraTargetPosition = Camera.transform.position;
             TryGetComponent(out slideInput);
             CameraLimit = cameraLimit;
+            slideInput.IgnoreUISwipe = true;
             slideInput.onSlide = OnScreenSlide;
             isInited = true;
         }
@@ -42,6 +43,8 @@ namespace AOP.GamePlay.CameraControl
             CameraTargetPosition.x = Mathf.Clamp(CameraTargetPosition.x, CameraLimit.x, CameraLimit.y);
             CameraTargetPosition.y = Mathf.Clamp(CameraTargetPosition.y, CameraLimit.z, CameraLimit.w);
         }
+
+        
     }
 }
 

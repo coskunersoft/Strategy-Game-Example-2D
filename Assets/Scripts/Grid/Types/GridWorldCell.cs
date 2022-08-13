@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AOP.ObjectPooling;
 using AOP.DataCenter;
+using AOP.EventFactory;
 
 namespace AOP.GridSystem
 {
@@ -11,20 +12,40 @@ namespace AOP.GridSystem
     {
         private SpriteRenderer spriteRenderer;
         private CellGroundType cellGroundType;
+        private GridCell gridCell;
 
         private void Awake()
         {
             TryGetComponent(out spriteRenderer);
         }
 
-        public void Apply(CellGroundType cellGroundType,Vector3 cellPosition)
+        public void Apply(GridCell gridCell, CellGroundType cellGroundType,Vector3 cellPosition)
         {
             this.cellGroundType = cellGroundType;
+            this.gridCell = gridCell;
             transform.position = cellPosition;
+            
 
             var configurationSO = ObjectCamp.PullScriptable<GridConfigurationSO>();
             var findedSpriteMap = configurationSO.cellGroundTypeSpriteMaps.Find(x => x.CellGroundType == cellGroundType);
             spriteRenderer.sprite = findedSpriteMap.sprite;
         }
+
+        private void OnMouseUpAsButton()
+        {
+            Events.GamePlayEvents.OnAnyGridCellClicked?.Invoke(gridCell);
+        }
+        private void OnMouseEnter()
+        {
+            Events.GamePlayEvents.OnMouseEnterAnyGridCell?.Invoke(gridCell);
+        }
+        private void OnMouseExit()
+        {
+            Events.GamePlayEvents.OnMouseExitAnyGridCell?.Invoke(gridCell);
+        }
+
+        public static implicit operator GridCell(GridWorldCell grid) => grid.gridCell;
+
+
     }
 }

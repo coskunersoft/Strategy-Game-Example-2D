@@ -13,6 +13,7 @@ namespace AOP.UI.Windows
         public Transform UILevelItemCarrier;
         private List<UIGameLevelItem> uIGameLevelItems;
 
+        #region Window Bussiness
         public void ApplyData(GameDataSO Data)
         {
             foreach (var item in Data.gameLevels)
@@ -25,7 +26,6 @@ namespace AOP.UI.Windows
             task.Result.ApplyData(gameLevelSO);
             uIGameLevelItems.Add(task.Result);
         }
-
 
         protected override IEnumerator ShowSquence(bool hitEvent = false, bool animated = true)
         {
@@ -44,5 +44,6 @@ namespace AOP.UI.Windows
             }
             uIGameLevelItems.Clear();
         }
+        #endregion
     }
 }

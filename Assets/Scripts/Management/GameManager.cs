@@ -8,6 +8,8 @@ using UnityEngine.AddressableAssets;
 using AOP.EventFactory;
 using AOP.FunctionFactory;
 using AOP.DataCenter;
+using System;
+using AOP.GamePlay.Squance;
 
 namespace AOP.Management
 {
@@ -15,6 +17,7 @@ namespace AOP.Management
     {
         public List<IManager> SubManagers;
         private GameSquance CurrentGameSquance;
+        private Action UpdateAction;
 
         #region Mono Functions
         private void Awake()
@@ -34,6 +37,10 @@ namespace AOP.Management
             Events.UIEvents.OnGameLevelSelectedButtonClick -= OnGameLevelSelectedButtonClick;
 
         }
+        private void Update()
+        {
+            UpdateAction?.Invoke();
+        }
         #endregion
 
         #region GameManager Bussiness
@@ -49,10 +56,12 @@ namespace AOP.Management
             Events.GeneralEvents.OnGameInitializationStep?.Invoke(GameInitiazationSteps.GameInitializationDone);
         }
 
-        public void LoadLevel(GameLevelSO gameLevelSO)
+        public IEnumerator LoadLevel(GameLevelSO gameLevelSO)
         {
             CurrentGameSquance = new GameSquance();
-            StartCoroutine(CurrentGameSquance.Init(gameLevelSO));
+            CurrentGameSquance.SubscribeEvents();
+            yield return CurrentGameSquance.Load(gameLevelSO);
+            UpdateAction += CurrentGameSquance.GameUpdate;
         }
         #endregion
 
@@ -63,7 +72,7 @@ namespace AOP.Management
         }
         private void OnGameLevelSelectedButtonClick(GameLevelSO gameLevelSO)
         {
-            LoadLevel(gameLevelSO);
+            StartCoroutine(LoadLevel(gameLevelSO));
         }
         #endregion
 

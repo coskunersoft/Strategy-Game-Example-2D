@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace AOP.Tools
 {
@@ -13,7 +14,8 @@ namespace AOP.Tools
         public System.Action<Vector2> onSlide;
         private Vector3 lastPos;
         public System.Action onTap;
-
+        public bool IgnoreUISwipe;
+        private bool blockSwipe;
 
 
         private void Start()
@@ -48,9 +50,11 @@ namespace AOP.Tools
                         case TouchPhase.Began:
                             firstPos = t.position;
                             lastPos = firstPos;
+                            blockSwipe = IsPointerOverUIObject() && IgnoreUISwipe;
                             break;
                         case TouchPhase.Moved:
                             Vector2 Delta = (Vector2)lastPos - t.position;
+                            if(!blockSwipe)
                             onSlide?.Invoke(Delta);
                             lastPos = t.position;
                             break;
@@ -83,10 +87,12 @@ namespace AOP.Tools
                 {
                     firstPos = Input.mousePosition;
                     lastPos = firstPos;
+                    blockSwipe = IsPointerOverUIObject() && IgnoreUISwipe;
                 }
                 if (Input.GetMouseButton(0))
                 {
                     Vector3 Delta = lastPos - Input.mousePosition;
+                    if (!blockSwipe)
                     onSlide?.Invoke(Delta);
                     lastPos = Input.mousePosition;
                 }
@@ -114,6 +120,15 @@ namespace AOP.Tools
         public enum ListeningMode
         {
             Swipe = 0, Tap = 1,
+        }
+
+        public bool IsPointerOverUIObject()
+        {
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            return results.Count > 0;
         }
     }
 }

@@ -45,6 +45,14 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/InGame/Environment/InGameEnvironment.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 9612f55538b8d43baa866f4d4484086d
+    m_Address: Assets/Prefabs/UI/Items/UI-InGameBuilding-Item.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ce2dcb1f7d23d434f9fb3fb3294d2b86
+    m_Address: Assets/Prefabs/InGame/Units/Unit-Barrack-S.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: daf257986c55f45ef8a1328de60fa450, type: 2}
   m_SchemaSet:
