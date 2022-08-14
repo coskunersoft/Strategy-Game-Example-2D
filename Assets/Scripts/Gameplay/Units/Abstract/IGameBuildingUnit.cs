@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AOP.GridSystem;
+using AOP.DataCenter;
 
 namespace AOP.GamePlay.Units
 {
@@ -9,6 +10,7 @@ namespace AOP.GamePlay.Units
     {
         [SerializeField] protected SpriteRenderer placingEffect;
         protected List<GridCell> placedGridCells;
+        [HideInInspector] public BuildingSO buildingSO;
 
         public void HidePlacingEffect() => placingEffect.enabled = false;
         public void PlacingEffectColor(Color32 color)
@@ -22,7 +24,6 @@ namespace AOP.GamePlay.Units
             HidePlacingEffect();
             placedGridCells = gridCells;
         }
-
     }
 }
 

@@ -8,7 +8,7 @@ namespace AOP.DataCenter
     public abstract class IGameUnitSO : IGameSO
     {
         public string UnitName;
-        public string UnityDesc;
+        public string UnitDesc;
         public Sprite UnitIcon;
         public AssetReference Prefab;
     }

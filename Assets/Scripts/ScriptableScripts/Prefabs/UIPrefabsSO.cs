@@ -19,6 +19,7 @@ namespace AOP.DataCenter
 
         public AssetReference UILevelItemReferance;
         public AssetReference UIBuildingItemReference;
+        public AssetReference UIBuildingProductionReference;
 
         public override void RegisterPrefabsToPool()
         {
@@ -30,6 +31,7 @@ namespace AOP.DataCenter
 
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(UIGameLevelItem), UILevelItemReferance));
             ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(UIGameBuildingItem), UIBuildingItemReference));
+            ObjectCamp.RegisterPrefab(new TypePrefabRegisterMap(typeof(UIBuildingProductionItem), UIBuildingProductionReference));
 
         }
     }

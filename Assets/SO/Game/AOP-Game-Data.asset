@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 193c5d7fdb1c24a929a612ae06b0ffdd, type: 2}
   allBuildings:
   - {fileID: 11400000, guid: 7b9807e9781d746c7bc2f6d1dfded7ef, type: 2}
+  - {fileID: 11400000, guid: 1fb151d8b5515438fb196027ffb5ed71, type: 2}
   WrongUnitPlaceColor:
     serializedVersion: 2
     rgba: 1660944639

@@ -35,6 +35,7 @@ namespace AOP.GamePlay.Squance
             var task = ObjectCamp.PullObject<IGameUnit>(buildingSO.UnitName);
             await task;
             gameBuildingUnit = task.Result as IGameBuildingUnit;
+            gameBuildingUnit.buildingSO = buildingSO;
             targetPosition = gameBuildingUnit.transform.position;
             gameBuildingUnit.PlacingEffectColor(gameDataSO.WrongUnitPlaceColor);
 
@@ -64,13 +65,12 @@ namespace AOP.GamePlay.Squance
             else
             {
                 gameBuildingUnit.Place(lastFocusedCells);
+                Events.GamePlayEvents.OnAnyBuildigPlaced?.Invoke(gameBuildingUnit);
                 lastFocusedCells.ForEach(x => x.PlaceUnit(gameBuildingUnit));
             }
             
             Events.GamePlayEvents.OnMouseEnterAnyGridCell -= OnMouseEnterAnyGridCell;
             Events.GamePlayEvents.OnMouseExitAnyGridCell -= OnMouseExitAnyGridCell;
-
-
         }
         #endregion
 
@@ -124,8 +124,8 @@ namespace AOP.GamePlay.Squance
                     result.Add(currentCell);
                 }
             }
-            if (result.Any(x => x == null)) result = null;
-            if (result.Any(x => !x.CanPlaceUnit())) result = null;
+            if (result.Any(x => x == null)) return null;
+            if (result.Any(x => !x.CanPlaceUnit())) return null;
             return result;
         }
     }

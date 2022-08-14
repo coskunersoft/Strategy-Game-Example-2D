@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace AOP.GamePlay.Units
 {
-    public class BarrackSmall : IGameBuildingUnit
+    public class IGameMilitaryUnit : IGameUnit
     {
 
     }
 }
+

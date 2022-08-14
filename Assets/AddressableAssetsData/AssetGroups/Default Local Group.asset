@@ -50,7 +50,15 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: ce2dcb1f7d23d434f9fb3fb3294d2b86
-    m_Address: Assets/Prefabs/InGame/Units/Unit-Barrack-S.prefab
+    m_Address: Assets/Prefabs/InGame/Units/Unit-House.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: acded0e0b5c5d419c9ed231f02b3db76
+    m_Address: Assets/Prefabs/InGame/Units/Unit-Workshop-S.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c37b0300c006f44e7a62aeed037f4534
+    m_Address: Assets/Prefabs/UI/Items/UI-InGame-BuildingProduction-Item.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

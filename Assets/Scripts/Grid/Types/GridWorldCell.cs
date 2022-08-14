@@ -4,6 +4,7 @@ using UnityEngine;
 using AOP.ObjectPooling;
 using AOP.DataCenter;
 using AOP.EventFactory;
+using AOP.GamePlay.Units;
 
 namespace AOP.GridSystem
 {
@@ -24,7 +25,6 @@ namespace AOP.GridSystem
             this.cellGroundType = cellGroundType;
             this.gridCell = gridCell;
             transform.position = cellPosition;
-            
 
             var configurationSO = ObjectCamp.PullScriptable<GridConfigurationSO>();
             var findedSpriteMap = configurationSO.cellGroundTypeSpriteMaps.Find(x => x.CellGroundType == cellGroundType);
@@ -33,7 +33,11 @@ namespace AOP.GridSystem
 
         private void OnMouseUpAsButton()
         {
-            Events.GamePlayEvents.OnAnyGridCellClicked?.Invoke(gridCell);
+            if ((IGameUnit)gridCell)
+                Events.GamePlayEvents.OnAnyUnitSelectedInGameArea?.Invoke(gridCell);
+            else
+                Events.GamePlayEvents.OnAnyGridCellClicked?.Invoke(gridCell);
+            
         }
         private void OnMouseEnter()
         {

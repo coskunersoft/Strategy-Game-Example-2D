@@ -25,5 +25,9 @@ namespace AOP.UI
         {
             Events.GamePlayEvents.OnAnyBuildDraggedFromMenu?.Invoke(buildingSO);
         }
+        public void OnClick()
+        {
+            Events.UIEvents.OnGameWindowBuildingClick?.Invoke(buildingSO);
+        }
     }
 }

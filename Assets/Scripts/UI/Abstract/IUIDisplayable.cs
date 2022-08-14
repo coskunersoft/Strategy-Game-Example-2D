@@ -12,9 +12,6 @@ namespace AOP.UI
     [RequireComponent(typeof(CanvasGroup))]
     public abstract class IUIDisplayable:MonoBehaviour
     {
-
-        
-
         [FoldoutGroup("Displayable Variables")] [ReadOnly] public CanvasGroup canvasGroup;
         [FoldoutGroup("Displayable Variables")] [ReadOnly] public bool isDisplaying = false;
 

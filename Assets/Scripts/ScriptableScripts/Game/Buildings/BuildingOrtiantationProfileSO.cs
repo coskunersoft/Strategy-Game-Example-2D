@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 namespace AOP.DataCenter
 {
-    [CreateAssetMenu(fileName = "AOP-Game-BuldingOrtiantationProfile", menuName = "AOP / Units / " + nameof(BuildingOrtiantationProfileSO))]
+    [CreateAssetMenu(fileName = "AOP-Game-BuldingOrtiantationProfile", menuName = "AOP/Units/" + nameof(BuildingOrtiantationProfileSO))]
     public class BuildingOrtiantationProfileSO : IGameSO
     {
         public List<DirectionGroup> OriantationGroups;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4c79eef54644e209ba0ae7b9183129, type: 3}
   m_Name: AOP-Data-GridConfigurationSO
   m_EditorClassIdentifier: 
-  GridCellDistance: 1
+  GridCellDistance: 0.95
   cellGroundTypeSpriteMaps:
   - CellGroundType: 0
     sprite: {fileID: -181357727, guid: 97c8614a3e1fc4a9683fb1d21993e293, type: 3}

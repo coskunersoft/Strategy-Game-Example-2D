@@ -30,8 +30,6 @@ namespace AOP.UI.Windows
                 CreateUIBuildingItem(item);
         }
 
-       
-
         private async void CreateUIBuildingItem(BuildingSO buildingSO)
         {
             var task = ObjectCamp.PullObject<UIGameBuildingItem>(carrier: buildingItemCarrier);
@@ -39,7 +37,5 @@ namespace AOP.UI.Windows
             task.Result.ApplyData(buildingSO);
             currentUIGameBuildingItems.Add(task.Result);
         }
-
-      
     }
 }

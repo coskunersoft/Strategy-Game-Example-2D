@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fb18650f23614e4b8503d7d3352cc7f, type: 3}
-  m_Name: AOP-Game-Building-Workshop-S
+  m_Name: AOP-Game-Building-House-S
   m_EditorClassIdentifier: 
-  UnitName: Workshop Small
-  UnityDesc: This is small workshop
-  UnitIcon: {fileID: 21300000, guid: 7006f9f576a614cc4b990ef540f1ac86, type: 3}
+  UnitName: House
+  UnitDesc: This is house
+  UnitIcon: {fileID: 21300000, guid: b182672a86bef4c549d1efda362fa90e, type: 3}
   Prefab:
     m_AssetGUID: ce2dcb1f7d23d434f9fb3fb3294d2b86
     m_SubObjectName: 
