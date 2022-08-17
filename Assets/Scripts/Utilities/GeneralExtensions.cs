@@ -42,6 +42,12 @@ namespace AOP.Extensions
             EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
             return results.Count > 0;
         }
+
+        public static T GetRandomElement<T>(this List<T> collection)
+        {
+            if (collection.Count <= 0) return default;
+            return collection[Random.Range(0, collection.Count)];
+        }
         
 
         public static Direction[] AllDirections = new Direction[] 

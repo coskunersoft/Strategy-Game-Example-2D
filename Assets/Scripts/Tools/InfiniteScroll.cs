@@ -13,6 +13,8 @@ namespace AOP.Tools
         [SerializeField]private GridLayoutGroup LayoutGroup;
         
         public List<RectTransform> Elements;
+        public RectTransform TopLimitPoint;
+        public RectTransform DownLimitPoint;
         public float TopPoint = 0;
         public float DownPoint = 0;
         private Vector3  MovementDistance;
@@ -56,7 +58,7 @@ namespace AOP.Tools
             {
                 foreach (var item in Elements)
                 {
-                    if (item.transform.position.y > TopPoint+item.sizeDelta.y)
+                    if (item.transform.position.y > TopLimitPoint.position.y+item.sizeDelta.y)
                     {
                         item.anchoredPosition -=(Vector2)MovementDistance;
                     }
@@ -66,7 +68,7 @@ namespace AOP.Tools
             {
                 foreach (var item in Elements)
                 {
-                    if (item.transform.position.y < DownPoint - item.sizeDelta.y)
+                    if (item.transform.position.y < DownLimitPoint.position.y - item.sizeDelta.y)
                     {
                         item.anchoredPosition +=(Vector2) MovementDistance;
                     }

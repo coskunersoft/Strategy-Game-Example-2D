@@ -37,7 +37,7 @@ namespace AOP.GridSystem
         }
         public bool CanPlaceUnit()
         {
-            if (placedUnit) return false;
+            if (placedUnit!=null) return false;
             return true;
         }
         public void PlaceUnit(IGameUnit gameUnit)

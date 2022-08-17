@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8963e40cbdf634dd395902c580d43637, type: 3}
-  m_Name: AOP-Game-BarrackBuildingSpawnPointProfile-SpawnRight
+  m_Name: AOP-Game-BarrackBuildingSpawnPointProfile-SpawnArround
   m_EditorClassIdentifier: 
   OriantationGroups:
   - directions: 01000000
+  - directions: 02000000
+  - directions: 03000000
+  - directions: 04000000

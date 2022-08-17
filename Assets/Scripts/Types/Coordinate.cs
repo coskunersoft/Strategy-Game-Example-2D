@@ -10,6 +10,8 @@ namespace AOP
 
         public int y { get; private set; }
 
+        public static Coordinate Empity = new Coordinate(-1 , -1);
+
         public Coordinate(int row = 0, int column = 0)
         {
             x = row;
@@ -94,6 +96,7 @@ namespace AOP
         {
             return $"[{x}.{y}]";
         }
+
     }
 }
 

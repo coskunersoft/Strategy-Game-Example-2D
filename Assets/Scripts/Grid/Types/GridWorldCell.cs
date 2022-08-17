@@ -15,7 +15,6 @@ namespace AOP.GridSystem
     {
         private SpriteRenderer spriteRenderer;
         private GridCell gridCell;
-
         private void Awake()
         {
             TryGetComponent(out spriteRenderer);

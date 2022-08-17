@@ -60,12 +60,13 @@ namespace AOP.GamePlay.Squance
                     GridCell finded = item;
                     foreach (var directionGroup in gameBarrackBuildingUnit.barrackBuildingSO.UnitSpawnPointProfile.OriantationGroups)
                     {
+                        finded = item;
                         foreach (var direction in directionGroup.directions)
                         {
-                            finded = gameGrid.GetCellsNeighbor(item, direction);
+                            finded = gameGrid.GetCellsNeighbor(finded, direction);
                         }
+                        aveliableCells.Add(finded);
                     }
-                    aveliableCells.Add(finded);
                 }
                 aveliableCells = aveliableCells.FindAll(x => x != null);
                 aveliableCells = aveliableCells.FindAll(x => x.CanPlaceUnit());

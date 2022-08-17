@@ -6,7 +6,7 @@ using AOP.GamePlay.ChangeableSystems;
 using AOP.GridSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using System.Linq;
+using DG.Tweening;
 using AOP.Extensions;
 using AOP.ObjectPooling;
 using AOP.GamePlay.FX;
@@ -52,6 +52,7 @@ namespace AOP.GamePlay.Units
         public virtual void AttackToEnemy()
         {
             if (!currentTarget) return;
+            transform.DOPunchScale(Vector3.one, .5f);
             ShowHitParticle(currentTarget.transform.position);
             LookAtTargetPoint2D(currentTarget.transform.position);
             currentTarget.HealthSystem.TakeDamage(AttackDamage);
@@ -67,19 +68,26 @@ namespace AOP.GamePlay.Units
         public void CancelAttack()
         {
             if (currentStrikeCoroutine != null) StopCoroutine(currentStrikeCoroutine);
+            Debug.Log("Attack Canceled" + transform.name);
         }
         private IEnumerator AttackCoroutine()
         {
             ReControlArea:
-
+            var movementData = NavigationAgent.Status();
             if (!IsEnemyInAttackRange())
             {
                 attackCoordinate = FindAttackCoordinate();
+                if (attackCoordinate == Coordinate.Empity) yield break;
                 NavigationAgent.SetDestination(attackCoordinate);
                 int waitingStep = 0;
                 while (true)
                 {
-                    waitingStep++;
+                    movementData = NavigationAgent.Status();
+                    if (!movementData.IsRecalculating)
+                    {
+                        waitingStep++;
+                    }
+                    
                     yield return new WaitForSeconds(.5f);
                     if (IsAttackPointReached()||waitingStep>=4) break;
                 }
@@ -91,19 +99,19 @@ namespace AOP.GamePlay.Units
 
 
             currentTarget.HealthSystem.onAmountEmpty += OnTargetDead;
-           
 
+           
             bool targetLost = false;
             while (currentTarget!=null&&currentTarget.HealthSystem.Amount>0)
             {
                 yield return waitForAttackRate;
+
                 if (IsEnemyInAttackRange())
                 {
                     AttackToEnemy();
                 }
                 else
                 {
-                  
                     targetLost = true;
                     break;
                 }
@@ -130,21 +138,22 @@ namespace AOP.GamePlay.Units
         }
         private Coordinate FindAttackCoordinate()
         {
-            GridCell owngridCell = placedGridCells[0];
             List<GridCell> targetCells = new List<GridCell>();
             foreach (var targetPlacedCell in currentTarget.PlacedGridCells)
             {
-                targetCells.AddRange(gameGrid.GetCellsNeighborsLayer(targetPlacedCell, militaryUnitSO.AttackDistance, onlyFreeCell: true, includeMain: false));
+                targetCells.AddRange(gameGrid.GetCellsNeighborsLayer(targetPlacedCell, militaryUnitSO.AttackDistance, onlyFreeCell: false, includeMain: false));
             }
-            targetCells.Sort((x, y) => gameGrid.DistanceTwoCell(x, owngridCell).CompareTo(gameGrid.DistanceTwoCell(y, owngridCell)));
-            GridCell resultCell = targetCells.FirstOrDefault();
-            return resultCell != null ? targetCells.FirstOrDefault().cellCoordinate : default;
-           
+            var resultCell = targetCells.Find(x => ((IGameUnit)x) == this);
+            targetCells = targetCells.FindAll(x => x != null);
+            targetCells = targetCells.FindAll(x => x.CanPlaceUnit());
+            if(resultCell==null) resultCell= targetCells.GetRandomElement();
+            return resultCell != null ? resultCell.cellCoordinate : Coordinate.Empity;
         }
         private bool IsEnemyInAttackRange()
         {
             if (placedGridCells == null || currentTarget == null || currentTarget.PlacedGridCells == null) return false;
-            return gameGrid.DistanceTwoCell(currentTarget.PlacedGridCells[0], placedGridCells[0]) <=militaryUnitSO.AttackDistance;
+            var finded= currentTarget.PlacedGridCells.Find(x => gameGrid.DistanceTwoCell(x, placedGridCells[0] )<= militaryUnitSO.AttackDistance);
+            return finded!=null;
         }
         private bool IsAttackPointReached()
         {

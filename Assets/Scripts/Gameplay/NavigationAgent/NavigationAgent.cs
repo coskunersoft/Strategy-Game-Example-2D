@@ -13,9 +13,13 @@ namespace AOP.GamePlay.Navigation
     public class NavigationAgent : MonoBehaviour
     {
         public bool IsGridInitialized { get;private set; }
+        private bool IsMoving;
+        private bool IsRecalculating = false;
+    
+        private Coordinate[] currentPath;
+        private Coordinate currentTargetCoordinate;
         private GameGrid gameGrid;
         private IGameMilitaryUnit gameUnit;
-        private Coordinate[] currentPath;
         public System.Action OnMovementStarted;
         public System.Action OnMovementCompleted;
         public System.Action OnMovementImposible;
@@ -26,7 +30,6 @@ namespace AOP.GamePlay.Navigation
         {
             TryGetComponent(out gameUnit);
         }
-
         public void InitializeGrid(GameGrid gameGrid)
         {
             this.gameGrid = gameGrid;
@@ -43,8 +46,15 @@ namespace AOP.GamePlay.Navigation
         public void Stop()
         {
             if (currentMovementCoroutine != null) StopCoroutine(currentMovementCoroutine);
+            IsMoving = false;
+            currentPath = null;
+            currentTargetCoordinate = default;
         }
-        
+
+        public (bool IsMoving ,bool IsRecalculating, Coordinate currentTargetCoordinate, Coordinate[] currentPath) Status()
+        {
+            return (IsMoving,IsRecalculating,currentTargetCoordinate,currentPath);
+        }
        
 
         private void Move(Coordinate coordinate)
@@ -56,10 +66,13 @@ namespace AOP.GamePlay.Navigation
         private IEnumerator MoveCoroutine(Coordinate coordinate)
         {
             currentPath = gameGrid.GetMovementPath(gameUnit.PlacedGridCells[0].cellCoordinate,coordinate);
-            if (currentPath.Length <= 1)
+            IsMoving = true;
+            currentTargetCoordinate = coordinate;
+            if (currentPath.Length <= 0)
             {
                 OnMovementImposible?.Invoke();
                 Debug.Log("Imposible Movement "+coordinate+" --- "+ gameUnit.PlacedGridCells[0].cellCoordinate);
+                Stop();
                 yield break;
             }
             OnMovementStarted?.Invoke();
@@ -71,13 +84,15 @@ namespace AOP.GamePlay.Navigation
                 gameUnit.LookAtTargetPoint2D(targetCell.WorldPosition);
                 if (!targetCell.CanPlaceUnit())
                 {
+                    IsRecalculating = true;
                     int step = 0;
                     for (step = 0; step < 11; step++)
                     {
                         yield return new WaitForSeconds(.1f);
-                        if (!targetCell.CanPlaceUnit()) break;
+                        if (targetCell.CanPlaceUnit()) break;
                     }
-                    if(step>=10)
+                    IsRecalculating = false;
+                    if (step>=10)
                     {
                         Move(coordinate);
                         yield break;
@@ -89,6 +104,7 @@ namespace AOP.GamePlay.Navigation
                 yield return gameUnit.transform.DOMove(gameUnit.transform.NewPositionWithCoverZAxis(targetCell.WorldPosition), 0.5f).SetEase(Ease.Linear).WaitForCompletion();
             }
             OnMovementCompleted?.Invoke();
+            Stop();
         }
 
     }

@@ -52,7 +52,7 @@ namespace AOP.GamePlay.Squance
         public void SubscribeEvents()
         {
             Events.SceneEvents.OnAnyMasterSceneLoadingCompeted += OnAnyMasterSceneLoadingCompeted;
-            Events.GamePlayEvents.OnAnyGridCellMouseOneClicked += OnAnyGridCellClicked;
+            Events.GamePlayEvents.OnAnyUnitSelectedInGameArea += OnAnyUnitSelectedInGameArea;
             Events.GamePlayEvents.OnAnyBuildDraggedFromMenu += OnAnyBuildDraggedFromMenu;
             Events.GamePlayEvents.OnAnyBarrackProductionCreateRequest += OnAnyProductionCreateRequest;
             Events.GamePlayEvents.OnAnyBarrackBuildingFinishProducting += OnAnyBarrackBuildingFinishProducting;
@@ -60,7 +60,7 @@ namespace AOP.GamePlay.Squance
         public void UnSubscribeEvents()
         {
             Events.SceneEvents.OnAnyMasterSceneLoadingCompeted -= OnAnyMasterSceneLoadingCompeted;
-            Events.GamePlayEvents.OnAnyGridCellMouseOneClicked -= OnAnyGridCellClicked;
+            Events.GamePlayEvents.OnAnyUnitSelectedInGameArea -= OnAnyUnitSelectedInGameArea;
             Events.GamePlayEvents.OnAnyBuildDraggedFromMenu -= OnAnyBuildDraggedFromMenu;
             Events.GamePlayEvents.OnAnyBarrackProductionCreateRequest -= OnAnyProductionCreateRequest;
             Events.GamePlayEvents.OnAnyBarrackBuildingFinishProducting -= OnAnyBarrackBuildingFinishProducting;
@@ -111,19 +111,9 @@ namespace AOP.GamePlay.Squance
         {
             GameSceneLoaded = masterSceneType == MasterSceneType.Game;
         }
-        private void OnAnyGridCellClicked(GridCell cell)
+        private void OnAnyUnitSelectedInGameArea(IGameUnit gridsUnit)
         {
-            IGameUnit gridsUnit = cell;
-            if (!gridsUnit) return;
-            List<GridCell> targetCells = new List<GridCell>();
-            foreach (var targetPlacedCell in gridsUnit.PlacedGridCells)
-            {
-                targetCells.AddRange(GameGrid.GetCellsNeighborsLayer(targetPlacedCell, 1, onlyFreeCell: true, includeMain: false));
-            }
-            foreach (var item in targetCells)
-            {
-                ((GridWorldCell)item).GetComponent<SpriteRenderer>().color = Color.red;
-            }
+           
         }
         private void OnAnyBuildDraggedFromMenu(BuildingSO buildingSO)
         {
