@@ -61,6 +61,46 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/UI/Items/UI-InGame-BuildingProduction-Item.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 1c3896d96a67f40bbb2fd3193a530a80
+    m_Address: Assets/Prefabs/InGame/Units/MilitaryUnits/Unit-MiltaryUnits-Tank.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 59f762e917f8d4af6ad91252da56d553
+    m_Address: Assets/Prefabs/InGame/Units/Buildings/Unit-Buildings-Temple-S.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7492911cd095b4170af058636f34973b
+    m_Address: Assets/Prefabs/InGame/Units/MilitaryUnits/Unit-MiltaryUnits-Infantry.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c6d754a3850754a8fbc4f22608fadde3
+    m_Address: Assets/Prefabs/InGame/Units/Buildings/Unit-Buildings-TroopBarrack-S.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 05b8d1933fdc84c8f8c2ad37fcbda6cd
+    m_Address: Assets/Prefabs/InGame/Units/Buildings/Unit-Buildings-ArcgerBarrack-S.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 32a631ab050bb45f1b0249705a663b44
+    m_Address: Assets/Prefabs/InGame/FX/InfarnyHitParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 47e44d5bfbfbc4105b5978655e4d97b6
+    m_Address: Assets/Prefabs/InGame/FX/WizardMagicHit.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 84e05d04aa4a94c7b871444069248c23
+    m_Address: Assets/Prefabs/InGame/Units/MilitaryUnits/Unit-MiltaryUnits-Infantry-Level2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 533735668ba874363bc18280fdaa89df
+    m_Address: Assets/Prefabs/InGame/Units/MilitaryUnits/Unit-MiltaryUnits-Infantry-Level3.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f83f4881fd5674092a3646837f303c00
+    m_Address: Assets/Prefabs/InGame/FX/BuildExplosionParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: daf257986c55f45ef8a1328de60fa450, type: 2}
   m_SchemaSet:

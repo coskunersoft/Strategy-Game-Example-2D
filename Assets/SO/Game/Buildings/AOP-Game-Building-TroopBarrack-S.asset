@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9da85e3bae844c74b68f8c67c071efc, type: 3}
+  m_Name: AOP-Game-Building-TroopBarrack-S
+  m_EditorClassIdentifier: 
+  UnitName: Troop Barrack
+  UnitDesc: This is Troop Barrack
+  UnitIcon: {fileID: 21300000, guid: 151a1c168c34a4095878329def9b11a3, type: 3}
+  Prefab:
+    m_AssetGUID: c6d754a3850754a8fbc4f22608fadde3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  MaxHealth: 100
+  ProductionTime: 0
+  buildingOrtiantationProfileSO: {fileID: 11400000, guid: 953a83e181bc2457bb4e717ef609dbc0,
+    type: 2}
+  ExplosionParticle: {fileID: 11400000, guid: b1815d1a9d8034fe191eb267b152f077, type: 2}
+  ProductionMilitaryUnits:
+  - {fileID: 11400000, guid: 6f7a702fc351342dcbf7213d8983d1d8, type: 2}
+  - {fileID: 11400000, guid: c611b0768bbf646f68756e26a6b9cfd4, type: 2}
+  - {fileID: 11400000, guid: 2285589876ccb4025bc603040ec1733c, type: 2}
+  UnitSpawnPointProfile: {fileID: 11400000, guid: d0e15ea1610234524a59c04f986974d8,
+    type: 2}

@@ -5,6 +5,8 @@ using AOP.ObjectPooling;
 using AOP.DataCenter;
 using AOP.EventFactory;
 using AOP.GamePlay.Units;
+using AOP.Extensions;
+using System.Text;
 
 namespace AOP.GridSystem
 {
@@ -12,7 +14,6 @@ namespace AOP.GridSystem
     public class GridWorldCell : MonoBehaviour, IObjectCampMember
     {
         private SpriteRenderer spriteRenderer;
-        private CellGroundType cellGroundType;
         private GridCell gridCell;
 
         private void Awake()
@@ -22,7 +23,6 @@ namespace AOP.GridSystem
 
         public void Apply(GridCell gridCell, CellGroundType cellGroundType,Vector3 cellPosition)
         {
-            this.cellGroundType = cellGroundType;
             this.gridCell = gridCell;
             transform.position = cellPosition;
 
@@ -31,12 +31,21 @@ namespace AOP.GridSystem
             spriteRenderer.sprite = findedSpriteMap.sprite;
         }
 
+        private void OnMouseOver()
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (GeneralExtensions.IsPointerOverUIObject()) return;
+                Events.GamePlayEvents.OnAnyGridCellMouseTwoClicked?.Invoke(gridCell);
+            }
+        }
         private void OnMouseUpAsButton()
         {
+            if (GeneralExtensions.IsPointerOverUIObject()) return;
             if ((IGameUnit)gridCell)
                 Events.GamePlayEvents.OnAnyUnitSelectedInGameArea?.Invoke(gridCell);
             else
-                Events.GamePlayEvents.OnAnyGridCellClicked?.Invoke(gridCell);
+                Events.GamePlayEvents.OnAnyGridCellMouseOneClicked?.Invoke(gridCell);
             
         }
         private void OnMouseEnter()

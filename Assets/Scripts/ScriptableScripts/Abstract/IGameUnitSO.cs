@@ -11,5 +11,7 @@ namespace AOP.DataCenter
         public string UnitDesc;
         public Sprite UnitIcon;
         public AssetReference Prefab;
+        public int MaxHealth;
+        public float ProductionTime;
     }
 }

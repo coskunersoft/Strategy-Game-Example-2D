@@ -26,8 +26,17 @@ namespace AOP.UI.Windows
             foreach (var item in currentUIGameBuildingItems)
                 ObjectCamp.PushObject(item);
 
+            for (int i = 0; i < 5; i++)
             foreach (var item in Data.allBuildings)
                 CreateUIBuildingItem(item);
+
+            StartCoroutine(InitWaiter());
+        }
+
+        IEnumerator InitWaiter()
+        {
+            yield return new WaitUntil(() => currentUIGameBuildingItems.Count >= currentData.allBuildings.Count);
+            InfiniteScroll.Init();
         }
 
         private async void CreateUIBuildingItem(BuildingSO buildingSO)

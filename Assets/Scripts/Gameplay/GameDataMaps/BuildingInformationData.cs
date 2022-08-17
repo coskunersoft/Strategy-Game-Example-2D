@@ -9,7 +9,7 @@ namespace AOP.GamePlay.DataMaps
 {
     public class BuildingInformationData :IUIContainerData
     {
-        public BuildingSO buildingSO;
-        public IGameBuildingUnit gameBuildingUnit;
+        public IGameUnitSO gameUnitSO;
+        public IGameUnit gameUnit;
     }
 }

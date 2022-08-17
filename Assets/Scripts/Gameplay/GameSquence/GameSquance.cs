@@ -4,7 +4,7 @@ using UnityEngine;
 using AOP.GridSystem;
 using AOP.EventFactory;
 using AOP.DataCenter;
-using UnityEngine.SceneManagement;
+using AOP.GamePlay.Units;
 using AOP.Management.Scene;
 using AOP.ObjectPooling;
 
@@ -29,6 +29,8 @@ namespace AOP.GamePlay.Squance
             yield return new WaitUntil(() => GameSceneLoaded);
             LoadInGameEnvironment();
             yield return new WaitUntil(() => EnvironmentLoaded);
+            InitializeStandartJobs();
+            
         }
         private async void LoadInGameEnvironment()
         {
@@ -50,15 +52,26 @@ namespace AOP.GamePlay.Squance
         public void SubscribeEvents()
         {
             Events.SceneEvents.OnAnyMasterSceneLoadingCompeted += OnAnyMasterSceneLoadingCompeted;
-            Events.GamePlayEvents.OnAnyGridCellClicked += OnAnyGridCellClicked;
+            Events.GamePlayEvents.OnAnyGridCellMouseOneClicked += OnAnyGridCellClicked;
             Events.GamePlayEvents.OnAnyBuildDraggedFromMenu += OnAnyBuildDraggedFromMenu;
+            Events.GamePlayEvents.OnAnyBarrackProductionCreateRequest += OnAnyProductionCreateRequest;
+            Events.GamePlayEvents.OnAnyBarrackBuildingFinishProducting += OnAnyBarrackBuildingFinishProducting;
         }
         public void UnSubscribeEvents()
         {
             Events.SceneEvents.OnAnyMasterSceneLoadingCompeted -= OnAnyMasterSceneLoadingCompeted;
-            Events.GamePlayEvents.OnAnyGridCellClicked -= OnAnyGridCellClicked;
+            Events.GamePlayEvents.OnAnyGridCellMouseOneClicked -= OnAnyGridCellClicked;
             Events.GamePlayEvents.OnAnyBuildDraggedFromMenu -= OnAnyBuildDraggedFromMenu;
+            Events.GamePlayEvents.OnAnyBarrackProductionCreateRequest -= OnAnyProductionCreateRequest;
+            Events.GamePlayEvents.OnAnyBarrackBuildingFinishProducting -= OnAnyBarrackBuildingFinishProducting;
 
+
+        }
+
+        private void InitializeStandartJobs()
+        {
+            jobs.Add(new UnitSelectingJob());
+            jobs.Add(new MilitaryUnitControlJob(GameGrid));
         }
 
         public void GameUpdate()
@@ -73,6 +86,11 @@ namespace AOP.GamePlay.Squance
                 var job = jobs[i];
                 if (job.IsStarted)
                 {
+                    if (job.IsCanceled)
+                    {
+                        job.Canceled();
+                        jobs.Remove(job);
+                    }
                     if (job.CompleteRule())
                     {
                         job.Completed();
@@ -95,13 +113,31 @@ namespace AOP.GamePlay.Squance
         }
         private void OnAnyGridCellClicked(GridCell cell)
         {
-            Debug.Log(cell.cellCoordinate);
+            IGameUnit gridsUnit = cell;
+            if (!gridsUnit) return;
+            List<GridCell> targetCells = new List<GridCell>();
+            foreach (var targetPlacedCell in gridsUnit.PlacedGridCells)
+            {
+                targetCells.AddRange(GameGrid.GetCellsNeighborsLayer(targetPlacedCell, 1, onlyFreeCell: true, includeMain: false));
+            }
+            foreach (var item in targetCells)
+            {
+                ((GridWorldCell)item).GetComponent<SpriteRenderer>().color = Color.red;
+            }
         }
         private void OnAnyBuildDraggedFromMenu(BuildingSO buildingSO)
         {
             Debug.Log(buildingSO.UnitName+" Trying to Drag");
             var job = new BuildPlaceJob(GameGrid,buildingSO);
             jobs.Add(job);
+        }
+        private void OnAnyProductionCreateRequest(IGameBarrackBuildingUnit gameBarrackBuildingUnit,MilitaryUnitSO militaryUnitSO)
+        {
+            gameBarrackBuildingUnit.StartProduction(militaryUnitSO);
+        }
+        private void OnAnyBarrackBuildingFinishProducting(IGameBarrackBuildingUnit gameBarrackBuildingUnit, IGameMilitaryUnit gameMilitaryUnit)
+        {
+            jobs.Add(new UnitPlaceJob(GameGrid,gameMilitaryUnit, gameBarrackBuildingUnit));
         }
         #endregion
     }

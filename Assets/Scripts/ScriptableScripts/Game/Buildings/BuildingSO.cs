@@ -10,5 +10,6 @@ namespace AOP.DataCenter
     public class BuildingSO : IGameUnitSO, IUIContainerData
     {
         public BuildingOrtiantationProfileSO buildingOrtiantationProfileSO;
+        public OneShotParticleSO ExplosionParticle;
     }
 }

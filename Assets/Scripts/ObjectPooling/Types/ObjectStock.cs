@@ -8,16 +8,11 @@ namespace AOP.ObjectPooling
 {
     public class ObjectStock
     {
-        public readonly string[] Parameters;
         public readonly List<StockObjectItem> Objects;
-        public ObjectStock(params string[] parameters)
+        public ObjectStock()
         {
             Objects = new List<StockObjectItem>();
-            Parameters = parameters;
-        }
-        public bool IsMatch(params string[] parameters)
-        {
-            return Parameters.Except(parameters).Count()<=0;
+         
         }
         public bool IsObjectInPool(IObjectCampMember objectCampMember)
         {
@@ -36,9 +31,9 @@ namespace AOP.ObjectPooling
             System.Type type = Objects.FirstOrDefault().ObjectCampMember.GetType();
             return type.IsSameFamily(otherType) && Objects.Any(x => x.variation.Equals(variation, System.StringComparison.OrdinalIgnoreCase));
         }
-        public IObjectCampMember GetObject()
+        public IObjectCampMember GetObject(string variation)
         {
-            var finded = Objects.FirstOrDefault();
+            var finded = Objects.FindAll(x => x.variation == variation).FirstOrDefault();
             Objects.Remove(finded);
             return finded.ObjectCampMember;
         }

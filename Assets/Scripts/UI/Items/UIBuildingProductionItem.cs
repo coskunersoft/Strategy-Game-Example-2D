@@ -5,25 +5,27 @@ using UnityEngine.UI;
 using AOP.UI.DataContainers;
 using AOP.DataCenter;
 using AOP.ObjectPooling;
-using UnityEngine.EventSystems;
+using AOP.GamePlay.DataMaps;
 using AOP.EventFactory;
 
 namespace AOP.UI.Items
 {
-    public class UIBuildingProductionItem : MonoBehaviour, IUIDataContainer<MilitaryUnitSO>, IObjectCampMember
+    public class UIBuildingProductionItem : MonoBehaviour, IUIDataContainer<MilitaryProductionItemData>, IObjectCampMember
     {
         public Image ProductionImage;
         public Button ProductionButton;
+        private MilitaryProductionItemData MilitaryProductionItemData;
 
-        public void ApplyData(MilitaryUnitSO Data)
+        public void ApplyData(MilitaryProductionItemData Data)
         {
-            ProductionImage.sprite = Data.UnitIcon;
+            this.MilitaryProductionItemData = Data;
+            ProductionImage.sprite = Data.militaryUnitSO.UnitIcon;
             ProductionButton.onClick = new Button.ButtonClickedEvent();
             ProductionButton.onClick.AddListener(OnClick);
         }
         private void OnClick()
         {
-
+            Events.GamePlayEvents.OnAnyBarrackProductionCreateRequest?.Invoke(MilitaryProductionItemData.gameBarrackBuildingUnit, MilitaryProductionItemData.militaryUnitSO);
         }
     }
 }

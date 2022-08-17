@@ -20,6 +20,7 @@ namespace AOP.UI
                     break;
                 case 2://Exit
                     Events.UIEvents.OnMainMenuExitButtonClick?.Invoke();
+                    Application.Quit();
                     break;
                 case 3://Back in New Game Menu
                     Events.UIEvents.OnNewGameMenuBackButtonClick?.Invoke();

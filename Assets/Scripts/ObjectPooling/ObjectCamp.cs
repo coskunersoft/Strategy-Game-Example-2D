@@ -25,15 +25,14 @@ namespace AOP.ObjectPooling
         {
             PassiveObjectHolder = transform;
         }
-        public static void PushObject<T>(T Object ,string _variation="" ,params string[] parameters) where T : IObjectCampMember 
+        public static void PushObject<T>(T Object ,string _variation="" ) where T : IObjectCampMember 
         {
             if (Object==null) return;
             if (!(Object is MonoBehaviour)) return;
-            var Finded=objectStocks.Find(x => x.IsMatch(parameters)&&x.CanPushObject(typeof(T)));
+            var Finded=objectStocks.Find(x =>x.CanPushObject(typeof(T)));
             if (Finded == null)
             {
-                
-                Finded = new ObjectStock(parameters);
+                Finded = new ObjectStock();
                 Finded.Objects.Add(new ObjectStock.StockObjectItem() { ObjectCampMember = Object, variation = _variation });
                 objectStocks.Add(Finded);
             }
@@ -50,12 +49,12 @@ namespace AOP.ObjectPooling
             behaviour.gameObject.SetActive(false);
             behaviour.transform.SetParent(PassiveObjectHolder);
         }
-        public static async Task<T> PullObject<T>(string variation="",Transform carrier=null, params string[] parameters) where T : IObjectCampMember
+        public static async Task<T> PullObject<T>(string variation="",Transform carrier=null) where T : IObjectCampMember
         {
-            var Finded = objectStocks.Find(x => x.IsMatch(parameters) && x.CanPullObject(typeof(T),variation));
+            var Finded = objectStocks.Find(x =>  x.CanPullObject(typeof(T),variation));
             if (Finded != null)
             {
-                var Object= (T)Finded.GetObject();
+                var Object= (T)Finded.GetObject(variation);
                 MonoBehaviour behaviour = Object as MonoBehaviour;
                 behaviour.gameObject.SetActive(true);
                 behaviour.transform.SetParent(carrier);

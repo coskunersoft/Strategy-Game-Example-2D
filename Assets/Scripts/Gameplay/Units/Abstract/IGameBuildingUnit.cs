@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using AOP.GridSystem;
 using AOP.DataCenter;
+using AOP.GamePlay.ChangeableSystems;
+using AOP.ObjectPooling;
+using AOP.GamePlay.FX;
+using AOP.Extensions;
 
 namespace AOP.GamePlay.Units
 {
     public abstract class IGameBuildingUnit : IGameUnit
     {
         [SerializeField] protected SpriteRenderer placingEffect;
-        protected List<GridCell> placedGridCells;
-        [HideInInspector] public BuildingSO buildingSO;
+        [HideInInspector] public BuildingSO buildingSO=>gameUnitSO as BuildingSO;
 
         public void HidePlacingEffect() => placingEffect.enabled = false;
         public void PlacingEffectColor(Color32 color)
@@ -18,11 +21,25 @@ namespace AOP.GamePlay.Units
             placingEffect.enabled = true;
             placingEffect.color = color;
         }
-
-        public virtual void Place(List<GridCell> gridCells)
+        public override void Place(List<GridCell> gridCells)
         {
+            base.Place(gridCells);
             HidePlacingEffect();
-            placedGridCells = gridCells;
+        }
+
+        private async void ShowExplosionParticle()
+        {
+            var particleCreateTask = ObjectCamp.PullObject<OneShotParticle>(variation: buildingSO.ExplosionParticle.ParticleName);
+            await particleCreateTask;
+            particleCreateTask.Result.transform.TranslateTransformWithCoverZAxis(transform.position);
+            particleCreateTask.Result.Play();
+
+        }
+
+        protected override void OnDead(IDamage damage)
+        {
+            ShowExplosionParticle();
+            base.OnDead(damage);
         }
     }
 }

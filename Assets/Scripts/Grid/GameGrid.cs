@@ -4,88 +4,119 @@ using AOP.DataCenter;
 using AOP.ObjectPooling;
 using UnityEngine;
 using System;
+using AOP.Pathfinding;
+using AOP.Pathfinding.Options;
+using AOP.Pathfinding.Heuristics;
 
 namespace AOP.GridSystem
 {
-    public class GameGrid 
+    public class GameGrid
     {
+        private readonly int gridSize = 0;
         private readonly GridCell[,] cells;
+        public int[,] GridTiles;
+        private PathFinder pathfinder;
+        PathFinderOptions pathfinderOptions = new PathFinderOptions
+        {
+            PunishChangeDirection = true,
+            UseDiagonals = true,
+             HeuristicFormula= HeuristicFormula.Euclidean,
+            
+        };
+
         public GameGrid(GridConfigurationSO configurationSO, int gridSize, Vector2 gridCenterPoint)
         {
+            this.gridSize = gridSize;
             Vector2 pos = gridCenterPoint;
-            Vector2 cellCoordinate = Vector2.zero;
+            Coordinate cellCoordinate = new Coordinate(0, 0);
             cells = new GridCell[gridSize, gridSize];
-            for (int i = 0; i < gridSize; i++)
+            GridTiles = new int[gridSize, gridSize];
+            for (int j = 0; j < gridSize; j++)
             {
-                for (int j = 0; j < gridSize; j++)
+                for (int i = 0; i < gridSize; i++)
                 {
-                    (cellCoordinate.x, cellCoordinate.y) = (j, i);
-                    cells[j, i] = new GridCell();
-                    cells[j, i].Apply(CellGroundType.Grass, pos,cellCoordinate);
+                    cellCoordinate = new Coordinate(i, j);
+                    GridCell gridCell = new GridCell(CellUpdated);
+                    gridCell.Apply(CellGroundType.Grass, pos, cellCoordinate);
+                    cells[i, j] = gridCell;
+                    GridTiles[i, j] = 1;
                     pos.x += configurationSO.GridCellDistance;
                 }
                 pos.x = gridCenterPoint.x;
                 pos.y += configurationSO.GridCellDistance;
             }
+
+            
         }
 
+
+        
         public GridCell GetCellsNeighbor(GridCell cellMain, Direction dir)
         {
             if (cellMain == null) return null;
-            Vector2 NextCoordinate = cellMain.cellCoordinate;
-            switch (dir)
-            {
-                case Direction.Right:
-                    NextCoordinate.x += 1;
-                    break;
-                case Direction.Left:
-                    NextCoordinate.x -= 1;
-                    break;
-                case Direction.Up:
-                    NextCoordinate.y += 1;
-                    break;
-                case Direction.Down:
-                    NextCoordinate.y -= 1;
-                    break;
-                case Direction.RightDown:
-                    NextCoordinate.x += 1;
-                    NextCoordinate.y -= 1;
-                    break;
-                case Direction.LeftDown:
-                    NextCoordinate.x -= 1;
-                    NextCoordinate.y -= 1;
-                    break;
-                case Direction.RightUp:
-                    NextCoordinate.x += 1;
-                    NextCoordinate.y += 1;
-                    break;
-                case Direction.LeftUp:
-                    NextCoordinate.x -= 1;
-                    NextCoordinate.y += 1;
-                    break;
-            }
-            
-            if (!GridContains(NextCoordinate)||NextCoordinate == cellMain.cellCoordinate) return default;
+            Coordinate NextCoordinate = cellMain.cellCoordinate;
+            NextCoordinate.Translate(dir);
+            if (!GridContains(NextCoordinate) || NextCoordinate == cellMain.cellCoordinate) return default;
             return this[NextCoordinate];
         }
-        public List<GridCell> GetCellsNeighbors(GridCell cellMain,params Direction[] directions)
+        public List<GridCell> GetCellsNeighbors(GridCell cellMain,bool onlyFreeCell=false, params Direction[] directions)
         {
             List<GridCell> result = new List<GridCell>();
             foreach (var item in directions)
             {
                 result.Add(GetCellsNeighbor(cellMain, item));
             }
+            result.RemoveAll(x => x == null);
+            if (onlyFreeCell)
+                result.RemoveAll(x => !x.CanPlaceUnit());
             return result;
         }
-
-        public bool GridContains(Vector2 coordinate)
+        public List<GridCell> GetCellsNeighborsLayer(GridCell gridCell, int layers, bool onlyFreeCell=false, bool includeMain=false)
         {
-            int i = (int)coordinate.x;
-            int j = (int)coordinate.y;
-            if (i < 0 || j < 0) return false;
-            return cells.GetLength(0) > j && cells.GetLength(1) > i;
+            List<GridCell> result = new List<GridCell>();
+            int maxX = Math.Clamp(gridCell.cellCoordinate.x + layers, 0, gridSize-1);
+            int minX = Math.Clamp(gridCell.cellCoordinate.x - layers, 0, gridSize-1);
+            int maxY = Math.Clamp(gridCell.cellCoordinate.y + layers, 0, gridSize-1);
+            int minY = Math.Clamp(gridCell.cellCoordinate.y - layers, 0, gridSize-1);
+
+            for (int i = minY; i <= maxY; i++)
+                for (int j = minX; j <= maxX; j++)
+                    result.Add(cells[j, i]);
+
+            if (!includeMain)
+                result.Remove(gridCell);
+
+            if (onlyFreeCell)
+                result.RemoveAll(x => !x.CanPlaceUnit());
+
+            return result;
+            
+        }
+        public int DistanceTwoCell(GridCell a,GridCell b)
+        {
+            return DistanceTwoCoordinate(a.cellCoordinate, b.cellCoordinate);
+        }
+        public int DistanceTwoCoordinate(Coordinate a, Coordinate b)
+        {
+            return (int)Vector2.Distance(new Vector2(a.x, a.y), new Vector2(b.x, b.y));
+        }
+        public bool GridContains(Coordinate coordinate)
+        {
+            if (coordinate.x < 0 || coordinate.y < 0) return false;
+            return gridSize > coordinate.y && gridSize > coordinate.x;
+        }
+        public void CellUpdated(GridCell cell)
+        {
+            GridTiles[cell.cellCoordinate.x,cell.cellCoordinate.y] = cell.CanPlaceUnit() ? 1 : 0;
+            pathfinder = new PathFinder(new WorldGrid(GridTiles), pathfinderOptions);
+
+        }
+        public Coordinate[] GetMovementPath(Coordinate a,Coordinate b)
+        {
+           return pathfinder.FindPath(a, b);
         }
 
-        public GridCell this[Vector2 coordinate]=>cells[(int)coordinate.x,(int)coordinate.y];
+
+        public GridCell this[Coordinate coordinate] => cells[coordinate.x,coordinate.y];
     }
 }

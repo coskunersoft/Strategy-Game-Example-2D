@@ -33,7 +33,7 @@ namespace AOP.UI
         {
             isDisplaying = false;
             if (animated)
-                yield return canvasGroup.DOFade(0, 1f).WaitForCompletion();
+                yield return canvasGroup.DOFade(0, .5f).WaitForCompletion();
             else canvasGroup.alpha = 0;
 
             canvasGroup.blocksRaycasts = false;
@@ -43,7 +43,7 @@ namespace AOP.UI
         {
             isDisplaying = true;
             if (animated)
-                yield return canvasGroup.DOFade(1, 1f).WaitForCompletion();
+                yield return canvasGroup.DOFade(1, .5f).WaitForCompletion();
             else canvasGroup.alpha = 1;
 
             canvasGroup.blocksRaycasts = true;

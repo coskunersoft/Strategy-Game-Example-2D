@@ -17,9 +17,24 @@ MonoBehaviour:
   allBuildings:
   - {fileID: 11400000, guid: 7b9807e9781d746c7bc2f6d1dfded7ef, type: 2}
   - {fileID: 11400000, guid: 1fb151d8b5515438fb196027ffb5ed71, type: 2}
+  - {fileID: 11400000, guid: f51d93cb813bf488cb12fa425b88ae20, type: 2}
+  - {fileID: 11400000, guid: 34cd28da4d15c44eabc73f5b37de11fc, type: 2}
+  - {fileID: 11400000, guid: df068bf440a204e3981c01cea610c79a, type: 2}
+  allMilitaryUnits:
+  - {fileID: 11400000, guid: 54e356361380a4faca458926b73f4a65, type: 2}
+  - {fileID: 11400000, guid: 6f7a702fc351342dcbf7213d8983d1d8, type: 2}
+  - {fileID: 11400000, guid: c611b0768bbf646f68756e26a6b9cfd4, type: 2}
+  - {fileID: 11400000, guid: 2285589876ccb4025bc603040ec1733c, type: 2}
+  allOneShotParticles:
+  - {fileID: 11400000, guid: 24dbf2f292b484a779be2817d6c03789, type: 2}
+  - {fileID: 11400000, guid: 59bc9ef34748b4c4b9a4fe838b22b150, type: 2}
+  - {fileID: 11400000, guid: b1815d1a9d8034fe191eb267b152f077, type: 2}
   WrongUnitPlaceColor:
     serializedVersion: 2
     rgba: 1660944639
   RightUnitPlaceColor:
     serializedVersion: 2
     rgba: 1996554037
+  UnitNormalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  UnitSelectedMaterial: {fileID: 2100000, guid: c88684fccaab34ee9b95a9ca3d97e306,
+    type: 2}

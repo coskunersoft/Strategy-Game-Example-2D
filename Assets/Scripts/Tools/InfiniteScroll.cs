@@ -3,26 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using AOP.ObjectPooling;
 
 namespace AOP.Tools
 {
-    public class InfiniteScroll : MonoBehaviour
+    public  class InfiniteScroll : MonoBehaviour 
     {
         private ScrollRect scrollRect;
-        private float DeadPointUp;
-        private float DeadPointDown;
-        public List<RectTransform> items;
-        public List<RectTransform> topItems;
-        public List<RectTransform> downItems;
+        [SerializeField]private GridLayoutGroup LayoutGroup;
+        
+        public List<RectTransform> Elements;
+        public float TopPoint = 0;
+        public float DownPoint = 0;
+        private Vector3  MovementDistance;
+        private Vector3 LastChangePosition;
 
-        private void Awake()
+        public async void Init()
         {
             TryGetComponent(out scrollRect);
-            DeadPointUp = scrollRect.viewport.rect.position.y+scrollRect.viewport.rect.height/2;
-            DeadPointDown = scrollRect.viewport.rect.position.y - scrollRect.viewport.rect.height / 2;
+            scrollRect.content.TryGetComponent(out LayoutGroup);
 
+            var recttransform = scrollRect.transform as RectTransform;
+            TopPoint = recttransform.position.y + recttransform.sizeDelta.y+LayoutGroup.cellSize.y;
+            DownPoint = recttransform.position.y - recttransform.sizeDelta.y - LayoutGroup.cellSize.y;
+            scrollRect.movementType = ScrollRect.MovementType.Unrestricted;
+            Elements = new List<RectTransform>();
+            foreach (RectTransform item in scrollRect.content)
+            {
+                Elements.Add(item);
+            }
+           
             scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
-
+            
+            await System.Threading.Tasks.Task.Delay(100);
+            MovementDistance = scrollRect.content.sizeDelta * Vector3.up;
+            LayoutGroup.enabled = false;
+            LastChangePosition = Elements[0].position;
         }
 
         private void OnDisable()
@@ -31,43 +47,32 @@ namespace AOP.Tools
         }
 
 
-        public void MakeInfinite(int columnCount)
-        {
-            items = new List<RectTransform>();
-            foreach (RectTransform item in scrollRect.content.transform)
-            {
-                items.Add(item);
-            }
-            for (int i = 0; i < columnCount; i++)
-            {
-                topItems.Add(items[i]);
-            }
-            for (int i = items.Count-1; i > items.Count-(columnCount+1); i--)
-            {
-                downItems.Add(items[i]);
-            }
-        }
-
         private void OnScrollValueChanged(Vector2 value)
         {
-            foreach (var item in items)
+            if (Elements.Count <= 0) return;
+            if (Mathf.Abs(Elements[0].position.y - LastChangePosition.y) < LayoutGroup.cellSize.y) return;
+
+            if (scrollRect.velocity.y>0)
             {
-                if (scrollRect.velocity.y > 0)
+                foreach (var item in Elements)
                 {
-                    if (item.rect.position.y > DeadPointUp)
+                    if (item.transform.position.y > TopPoint+item.sizeDelta.y)
                     {
-
+                        item.anchoredPosition -=(Vector2)MovementDistance;
                     }
                 }
-                else
-                {
-                    if (item.rect.position.y < DeadPointDown)
-                    {
-
-                    }
-                }
-                
             }
+            else if (scrollRect.velocity.y<0)
+            {
+                foreach (var item in Elements)
+                {
+                    if (item.transform.position.y < DownPoint - item.sizeDelta.y)
+                    {
+                        item.anchoredPosition +=(Vector2) MovementDistance;
+                    }
+                }
+            }
+            LastChangePosition = Elements[0].position;
         }
 
 

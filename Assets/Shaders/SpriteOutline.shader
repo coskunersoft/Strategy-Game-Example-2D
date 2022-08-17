@@ -1,84 +1,120 @@
-Shader "Outline2D" {
-	Properties {
-		_Color ("Main Tint", Color) = (1,1,1,1)
-		_OutlineColor ("Outline Color", Color) = (1,1,1,1)
-		_MainTex ("Albedo (RGB)", 2D) = "white" {}
-		_Glossiness ("Smoothness", Range(0,1)) = 0.5
-		_Metallic ("Metallic", Range(0,1)) = 0.0
-		_Cutoff ("Main Alpha Cutoff", Range(0,1)) = 0.5
-		_OutlineCutoff ("Outline Alpha Cutoff", Range(0,1)) = 0.25
-		_LineOffset ("Outline Depth Offset", Range(0,-10000)) = -1000
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Sprites/Outline"
+{
+	Properties
+	{
+		[PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
+		_Color("Tint", Color) = (1,1,1,1)
+		[MaterialToggle] PixelSnap("Pixel snap", Float) = 0
+
+		// Add values to determine if outlining is enabled and outline color.
+		 _Outline("Outline", Float) = 1
+		 _OutlineColor("Outline Color", Color) = (1,1,1,1)
+		 _OutlineSize("Outline Size", int) = 1
 	}
-	SubShader {
 
-		//Standard Pass
-		Tags { "RenderType"="Opaque" }
-		LOD 200
-		
-		Offset -3, [_LineOffset]
-		Cull Off
-
-		CGPROGRAM
-		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard
-		#pragma target 3.0
-
-		sampler2D _MainTex;
-
-		struct Input {
-			float2 uv_MainTex;
-		};
-
-		half _Glossiness;
-		half _Metallic;
-		fixed4 _Color;
-		half _Cutoff;
-
-		void surf (Input IN, inout SurfaceOutputStandard o) {
-			fixed4 albedo = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-  			clip (albedo.a - _Cutoff);
-
-			o.Albedo = albedo.rgb;
-			o.Metallic = _Metallic;
-			o.Smoothness = _Glossiness;
-			o.Alpha = albedo.a;
+	SubShader
+	{
+		Tags
+		{
+			"Queue" = "Transparent"
+			"IgnoreProjector" = "True"
+			"RenderType" = "Transparent"
+			"PreviewType" = "Plane"
+			"CanUseSpriteAtlas" = "True"
 		}
-		ENDCG
 
-		
-		//Outline Pass
-		Tags { "RenderType"="Opaque" }
-		LOD 200
-
-		Offset 0, 0
 		Cull Off
-		
-		CGPROGRAM
-		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard addshadow
-		#pragma target 3.0
+		Lighting Off
+		ZWrite Off
+		Blend One OneMinusSrcAlpha
 
-		sampler2D _MainTex;
+		Pass
+		{
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile _ PIXELSNAP_ON
+			#pragma shader_feature ETC1_EXTERNAL_ALPHA
+			#include "UnityCG.cginc"
 
-		struct Input {
-			float2 uv_MainTex;
-		};
+			struct appdata_t
+			{
+				float4 vertex   : POSITION;
+				float4 color    : COLOR;
+				float2 texcoord : TEXCOORD0;
+			};
 
-		half _Glossiness;
-		half _Metallic;
-		fixed4 _OutlineColor;
-		half _OutlineCutoff;
+			struct v2f
+			{
+				float4 vertex   : SV_POSITION;
+				fixed4 color : COLOR;
+				float2 texcoord  : TEXCOORD0;
+			};
 
-		void surf (Input IN, inout SurfaceOutputStandard o) {
-			fixed4 albedo = tex2D (_MainTex, IN.uv_MainTex);
-  			clip (albedo.a - _OutlineCutoff);
+			fixed4 _Color;
+			float _Outline;
+			fixed4 _OutlineColor;
+			int _OutlineSize;
 
-			o.Albedo = _OutlineColor.rgb;
-			o.Metallic = _Metallic;
-			o.Smoothness = _Glossiness;
-			o.Alpha = albedo.a;
+			v2f vert(appdata_t IN)
+			{
+				v2f OUT;
+				OUT.vertex = UnityObjectToClipPos(IN.vertex);
+				OUT.texcoord = IN.texcoord;
+				OUT.color = IN.color * _Color;
+				#ifdef PIXELSNAP_ON
+				OUT.vertex = UnityPixelSnap(OUT.vertex);
+				#endif
+
+				return OUT;
+			}
+
+			sampler2D _MainTex;
+			sampler2D _AlphaTex;
+			float4 _MainTex_TexelSize;
+
+			fixed4 SampleSpriteTexture(float2 uv)
+			{
+				fixed4 color = tex2D(_MainTex, uv);
+
+				#if ETC1_EXTERNAL_ALPHA
+				// get the color from an external texture (usecase: Alpha support for ETC1 on android)
+				color.a = tex2D(_AlphaTex, uv).r;
+				#endif //ETC1_EXTERNAL_ALPHA
+
+				return color;
+			}
+
+			fixed4 frag(v2f IN) : SV_Target
+			{
+				fixed4 c = SampleSpriteTexture(IN.texcoord) * IN.color;
+
+				// If outline is enabled and there is a pixel, try to draw an outline.
+				if (_Outline > 0 && c.a != 0) {
+					float totalAlpha = 1.0;
+
+					[unroll(16)]
+					for (int i = 1; i < _OutlineSize + 1; i++) {
+						fixed4 pixelUp = tex2D(_MainTex, IN.texcoord + fixed2(0, i * _MainTex_TexelSize.y));
+						fixed4 pixelDown = tex2D(_MainTex, IN.texcoord - fixed2(0,i *  _MainTex_TexelSize.y));
+						fixed4 pixelRight = tex2D(_MainTex, IN.texcoord + fixed2(i * _MainTex_TexelSize.x, 0));
+						fixed4 pixelLeft = tex2D(_MainTex, IN.texcoord - fixed2(i * _MainTex_TexelSize.x, 0));
+
+						totalAlpha = totalAlpha * pixelUp.a * pixelDown.a * pixelRight.a * pixelLeft.a;
+					}
+
+					if (totalAlpha == 0) {
+						c.rgba = fixed4(1, 1, 1, 1) * _OutlineColor;
+					}
+				}
+
+				c.rgb *= c.a;
+
+				return c;
+			}
+			ENDCG
 		}
-		ENDCG
 	}
-	FallBack "Diffuse"
 }

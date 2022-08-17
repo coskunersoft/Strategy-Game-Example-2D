@@ -10,5 +10,6 @@ namespace AOP.DataCenter
     public class BarrackBuildingSO : BuildingSO
     {
         public List<MilitaryUnitSO> ProductionMilitaryUnits;
+        public BuildingOrtiantationProfileSO UnitSpawnPointProfile;
     }
 }

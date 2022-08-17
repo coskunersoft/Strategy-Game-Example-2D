@@ -10,18 +10,22 @@ namespace AOP.GridSystem
     {
         public CellGroundType cellGroundType { get;private set; }
         private GridWorldCell gridWorldCell;
-        public Vector2 cellCoordinate;
-        private Vector2 cellPosition;
+        public Coordinate cellCoordinate;
+        public Vector2 WorldPosition => gridWorldCell ? gridWorldCell.transform.position :Vector2.zero;
         private IGameUnit placedUnit;
-        
-        public void Apply(CellGroundType cellGroundType,Vector2 cellPosition,Vector2 cellCoordinate)
+        private System.Action<GridCell> OnCellUpdated;
+
+        public GridCell(System.Action<GridCell> OnCellUpdated)
+        {
+            this.OnCellUpdated = OnCellUpdated;
+        }
+        public void Apply(CellGroundType cellGroundType,Vector2 cellWorldPosition,Coordinate cellCoordinate)
         {
             this.cellGroundType = cellGroundType;
-            this.cellPosition = cellPosition;
             this.cellCoordinate = cellCoordinate;
-            Visualize();
+            Visualize(cellWorldPosition);
         }
-        private async void Visualize()
+        private async void Visualize(Vector2 cellWorldPosition)
         {
             if (!gridWorldCell)
             {
@@ -29,16 +33,22 @@ namespace AOP.GridSystem
                 await task;
                 gridWorldCell = task.Result;
             }
-            gridWorldCell.Apply(this,cellGroundType, cellPosition);
+            gridWorldCell.Apply(this,cellGroundType, cellWorldPosition);
         }
         public bool CanPlaceUnit()
         {
-            if (placedUnit != null) return false;
+            if (placedUnit) return false;
             return true;
         }
         public void PlaceUnit(IGameUnit gameUnit)
         {
             placedUnit = gameUnit;
+            OnCellUpdated?.Invoke(this);
+        }
+        public void UnPlaceUnit()
+        {
+            placedUnit = null;
+            OnCellUpdated?.Invoke(this);
         }
 
         public static implicit operator GridWorldCell(GridCell grid)=>grid.gridWorldCell;

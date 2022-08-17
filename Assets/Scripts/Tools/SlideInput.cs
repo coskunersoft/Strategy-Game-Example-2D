@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using AOP.Extensions;
 
 namespace AOP.Tools
 {
@@ -50,7 +51,7 @@ namespace AOP.Tools
                         case TouchPhase.Began:
                             firstPos = t.position;
                             lastPos = firstPos;
-                            blockSwipe = IsPointerOverUIObject() && IgnoreUISwipe;
+                            blockSwipe = GeneralExtensions.IsPointerOverUIObject() && IgnoreUISwipe;
                             break;
                         case TouchPhase.Moved:
                             Vector2 Delta = (Vector2)lastPos - t.position;
@@ -87,7 +88,7 @@ namespace AOP.Tools
                 {
                     firstPos = Input.mousePosition;
                     lastPos = firstPos;
-                    blockSwipe = IsPointerOverUIObject() && IgnoreUISwipe;
+                    blockSwipe = GeneralExtensions.IsPointerOverUIObject() && IgnoreUISwipe;
                 }
                 if (Input.GetMouseButton(0))
                 {
@@ -122,13 +123,6 @@ namespace AOP.Tools
             Swipe = 0, Tap = 1,
         }
 
-        public bool IsPointerOverUIObject()
-        {
-            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-            eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            List<RaycastResult> results = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-            return results.Count > 0;
-        }
+       
     }
 }

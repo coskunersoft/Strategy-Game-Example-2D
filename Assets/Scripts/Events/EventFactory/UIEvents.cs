@@ -23,6 +23,7 @@ namespace AOP.EventFactory
             public static Action<GameLevelSO> OnGameLevelSelectedButtonClick;
 
             public static Action<BuildingSO> OnGameWindowBuildingClick;
+           
         }
     }
 }

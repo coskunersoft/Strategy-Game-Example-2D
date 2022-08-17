@@ -35,7 +35,7 @@ namespace AOP.GamePlay.Squance
             var task = ObjectCamp.PullObject<IGameUnit>(buildingSO.UnitName);
             await task;
             gameBuildingUnit = task.Result as IGameBuildingUnit;
-            gameBuildingUnit.buildingSO = buildingSO;
+            gameBuildingUnit.Initialize(buildingSO);
             targetPosition = gameBuildingUnit.transform.position;
             gameBuildingUnit.PlacingEffectColor(gameDataSO.WrongUnitPlaceColor);
 
@@ -46,7 +46,7 @@ namespace AOP.GamePlay.Squance
 
         public override void Canceled()
         {
-
+            ObjectCamp.PushObject(gameBuildingUnit, buildingSO.UnitName);
         }
 
         public override bool CompleteRule()
@@ -85,6 +85,12 @@ namespace AOP.GamePlay.Squance
         {
             focusedCell = gridCell;
             lastFocusedCells = FindGridCellsWithOriantation();
+            
+            if(GeneralExtensions.IsPointerOverUIObject())
+            {
+                focusedCell = null;
+                lastFocusedCells = null;
+            }
             if (lastFocusedCells == null)
                 gameBuildingUnit.PlacingEffectColor(gameDataSO.WrongUnitPlaceColor);
             else
@@ -97,10 +103,8 @@ namespace AOP.GamePlay.Squance
             if (!gameBuildingUnit) return;
             if (focusedCell != null&&lastFocusedCells!=null)
             {
-                var center = lastFocusedCells.ConvertAll(x => (Vector2)(((GridWorldCell)x).transform.position)).CenterOfVectors();
-                targetPosition = center;
-                targetPosition.z = gameBuildingUnit.transform.position.z;
-                gameBuildingUnit.transform.position = targetPosition;
+                var center = lastFocusedCells.ConvertAll(x => x.WorldPosition).CenterOfVectors();
+                gameBuildingUnit.transform.TranslateTransformWithCoverZAxis(center);
             }
             else
             {
