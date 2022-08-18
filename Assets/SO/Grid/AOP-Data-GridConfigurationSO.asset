@@ -17,5 +17,5 @@ MonoBehaviour:
   - CellGroundType: 0
     sprite: {fileID: 854811892013987489, guid: 97c8614a3e1fc4a9683fb1d21993e293, type: 3}
   - CellGroundType: 1
-    sprite: {fileID: 7709174352609304635, guid: 97c8614a3e1fc4a9683fb1d21993e293,
+    sprite: {fileID: 1031701831565612003, guid: 97c8614a3e1fc4a9683fb1d21993e293,
       type: 3}
