@@ -31,6 +31,8 @@ namespace AOP.Tools
                 case RuntimePlatform.OSXEditor:
                 case RuntimePlatform.WindowsEditor:
                 case RuntimePlatform.LinuxEditor:
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.OSXPlayer:
                     platformSpecialController = PcController;
                     break;
             }
