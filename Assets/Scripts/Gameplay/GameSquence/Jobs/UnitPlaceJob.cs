@@ -54,7 +54,7 @@ namespace AOP.GamePlay.Squance
         {
             try
             {
-                List<GridCell> aveliableCells = new();
+                List<GridCell> aveliableCells = new List<GridCell>();
                 foreach (var item in gameBarrackBuildingUnit.PlacedGridCells)
                 {
                     GridCell finded = item;

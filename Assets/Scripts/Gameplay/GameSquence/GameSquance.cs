@@ -45,7 +45,7 @@ namespace AOP.GamePlay.Squance
             Vector4 CameraLimits = new Vector4(startPosition.x, startPosition.x + gridWitdh, startPosition.y, startPosition.y + gridWitdh);
             InGameEnvironmentObject.CameraControl.Init(CameraLimits, InGameEnvironmentObject.GridStartPoint.position);
 
-            GameGrid = new GameGrid(gridConfigurationSO, currentLevelSO.GridSize, startPosition);
+            GameGrid = new GameGrid(gridConfigurationSO, currentLevelSO.GridSize, currentLevelSO.WaterSize, startPosition);
             EnvironmentLoaded = true;
         }
 

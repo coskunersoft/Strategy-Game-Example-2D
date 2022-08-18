@@ -24,20 +24,30 @@ namespace AOP.GridSystem
             
         };
 
-        public GameGrid(GridConfigurationSO configurationSO, int gridSize, Vector2 gridCenterPoint)
+        public GameGrid(GridConfigurationSO configurationSO, int gridSize,int waterSize, Vector2 gridCenterPoint)
         {
             this.gridSize = gridSize;
             Vector2 pos = gridCenterPoint;
             Coordinate cellCoordinate = new Coordinate(0, 0);
             cells = new GridCell[gridSize, gridSize];
             GridTiles = new int[gridSize, gridSize];
+            int waterCount = waterSize;
             for (int j = 0; j < gridSize; j++)
             {
                 for (int i = 0; i < gridSize; i++)
                 {
                     cellCoordinate = new Coordinate(i, j);
                     GridCell gridCell = new GridCell(CellUpdated);
-                    gridCell.Apply(CellGroundType.Grass, pos, cellCoordinate);
+                    CellGroundType cellGroundType = CellGroundType.Grass;
+                    if (waterSize > 0 )
+                    {
+                        if (UnityEngine.Random.Range(0, 10) > 8 )
+                        {
+                            waterSize--;
+                            cellGroundType = CellGroundType.Soil;
+                        }
+                    }
+                    gridCell.Apply(cellGroundType, pos, cellCoordinate);
                     cells[i, j] = gridCell;
                     GridTiles[i, j] = 1;
                     pos.x += configurationSO.GridCellDistance;
@@ -45,12 +55,8 @@ namespace AOP.GridSystem
                 pos.x = gridCenterPoint.x;
                 pos.y += configurationSO.GridCellDistance;
             }
-
-            
         }
 
-
-        
         public GridCell GetCellsNeighbor(GridCell cellMain, Direction dir)
         {
             if (cellMain == null) return null;
@@ -74,10 +80,10 @@ namespace AOP.GridSystem
         public List<GridCell> GetCellsNeighborsLayer(GridCell gridCell, int layers, bool onlyFreeCell=false, bool includeMain=false)
         {
             List<GridCell> result = new List<GridCell>();
-            int maxX = Math.Clamp(gridCell.cellCoordinate.x + layers, 0, gridSize-1);
-            int minX = Math.Clamp(gridCell.cellCoordinate.x - layers, 0, gridSize-1);
-            int maxY = Math.Clamp(gridCell.cellCoordinate.y + layers, 0, gridSize-1);
-            int minY = Math.Clamp(gridCell.cellCoordinate.y - layers, 0, gridSize-1);
+            int maxX = Mathf.Clamp(gridCell.cellCoordinate.x + layers, 0, gridSize-1);
+            int minX = Mathf.Clamp(gridCell.cellCoordinate.x - layers, 0, gridSize-1);
+            int maxY = Mathf.Clamp(gridCell.cellCoordinate.y + layers, 0, gridSize-1);
+            int minY = Mathf.Clamp(gridCell.cellCoordinate.y - layers, 0, gridSize-1);
 
             for (int i = minY; i <= maxY; i++)
                 for (int j = minX; j <= maxX; j++)

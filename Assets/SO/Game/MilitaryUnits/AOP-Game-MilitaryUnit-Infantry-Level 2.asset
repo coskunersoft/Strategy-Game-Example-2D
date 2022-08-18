@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitName: 'Mid Infarnity '
   UnitDesc: Strikes enemies with double sword
-  UnitIcon: {fileID: -992611325, guid: 0c9927213b65f484d9d893503e4d2000, type: 3}
+  UnitIcon: {fileID: -5691007311618604778, guid: 0c9927213b65f484d9d893503e4d2000,
+    type: 3}
   Prefab:
     m_AssetGUID: 84e05d04aa4a94c7b871444069248c23
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   MaxHealth: 10
-  ProductionTime: 5
+  ProductionTime: 2
   AttackDistance: 1
   AttackRate: 1
   StrikePower: 5

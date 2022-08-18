@@ -19,6 +19,9 @@ namespace AOP.DataCenter
         public Color32 WrongUnitPlaceColor;
         public Color32 RightUnitPlaceColor;
 
+        public OneShotParticleSO ClickAttackParticle;
+        public OneShotParticleSO ClickMoveParticle;
+
         public Material UnitNormalMaterial;
         public Material UnitSelectedMaterial;
 

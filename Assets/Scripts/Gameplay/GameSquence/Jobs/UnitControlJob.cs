@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using AOP.EventFactory;
 using AOP.GamePlay.Units;
 using AOP.GridSystem;
+using AOP.GamePlay.FX;
+using AOP.DataCenter;
+using AOP.ObjectPooling;
 using UnityEngine;
 using AOP.Extensions;
-using AOP.FunctionFactory;
-using DG.Tweening;
 
 namespace AOP.GamePlay.Squance
 {
@@ -14,6 +15,7 @@ namespace AOP.GamePlay.Squance
     {
         private readonly GameGrid gameGrid;
         private IGameMilitaryUnit controllingMilitaryUnit;
+        private GameDataSO gameDataSO;
 
         public MilitaryUnitControlJob(GameGrid gameGrid)
         {
@@ -23,6 +25,8 @@ namespace AOP.GamePlay.Squance
         #region Job Functions
         public override void Started()
         {
+            gameDataSO = ObjectCamp.PullScriptable<GameDataSO>();
+
             Events.GamePlayEvents.OnAnyGridCellMouseOneClicked += OnAnyGridCellClicked;
             Events.GamePlayEvents.OnAnyGridCellMouseTwoClicked += OnAnyGridCellMouseTwoClicked;
             Events.GamePlayEvents.OnAnyUnitSelectedInGameArea += OnAnyUnitSelectedInGameArea;
@@ -55,10 +59,29 @@ namespace AOP.GamePlay.Squance
         {
             controllingMilitaryUnit.CancelAttack();
             controllingMilitaryUnit.NavigationAgent.SetDestination(targetCell.cellCoordinate);
+            ShowMoveParticle(((GridWorldCell)targetCell).transform.position);
         }
         private void AttackUnit(IGameUnit targetUnit)
         {
             controllingMilitaryUnit.StartAttack(targetUnit);
+            ShowAttackParticle(targetUnit.transform.position);
+        }
+
+        private async void ShowAttackParticle(Vector2 position)
+        {
+             var task=  ObjectCamp.PullObject<OneShotParticle>(gameDataSO.ClickAttackParticle.ParticleName);
+            await task;
+            task.Result.transform.TranslateTransformWithCoverZAxis(position);
+            task.Result.Play();
+
+        }
+        private async void ShowMoveParticle(Vector2 position)
+        {
+            var task = ObjectCamp.PullObject<OneShotParticle>(gameDataSO.ClickMoveParticle.ParticleName);
+            await task;
+            task.Result.transform.TranslateTransformWithCoverZAxis(position);
+            task.Result.Play();
+
         }
 
         #region EventListener

@@ -101,6 +101,14 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/InGame/FX/BuildExplosionParticle.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 94ef7de14e0054ba3a8e38f93b183385
+    m_Address: Assets/Prefabs/InGame/FX/ClickAttackParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 20555fe3a9c6f41fdb56330ac1f0685f
+    m_Address: Assets/Prefabs/InGame/FX/ClickMoveParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: daf257986c55f45ef8a1328de60fa450, type: 2}
   m_SchemaSet:

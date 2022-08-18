@@ -11,7 +11,7 @@ namespace AOP.GridSystem
         public CellGroundType cellGroundType { get;private set; }
         private GridWorldCell gridWorldCell;
         public Coordinate cellCoordinate;
-        public Vector2 WorldPosition => gridWorldCell ? gridWorldCell.transform.position :Vector2.zero;
+        public Vector2 WorldPosition => gridWorldCell ? (Vector2)gridWorldCell.transform.position :Vector2.zero;
         private IGameUnit placedUnit;
         private System.Action<GridCell> OnCellUpdated;
 

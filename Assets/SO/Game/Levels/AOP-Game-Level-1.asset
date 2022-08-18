@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: AOP-Game-Level-1
   m_EditorClassIdentifier: 
   LevelID: Level-1
-  LevelIcon: {fileID: 1730481218, guid: 97c8614a3e1fc4a9683fb1d21993e293, type: 3}
-  LevelTitle: Sea Rush
+  LevelIcon: {fileID: 6216806287598692251, guid: 97c8614a3e1fc4a9683fb1d21993e293,
+    type: 3}
+  LevelTitle: Grass Land
   GridSize: 30
+  WaterSize: 0

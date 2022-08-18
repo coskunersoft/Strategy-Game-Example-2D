@@ -12,5 +12,6 @@ namespace AOP.DataCenter
         public Sprite LevelIcon;
         public string LevelTitle;
         public int GridSize;
+        public int WaterSize;
     }
 }

@@ -48,7 +48,6 @@ namespace AOP.Tools
             scrollRect.onValueChanged.RemoveListener(OnScrollValueChanged);
         }
 
-
         private void OnScrollValueChanged(Vector2 value)
         {
             if (Elements.Count <= 0) return;

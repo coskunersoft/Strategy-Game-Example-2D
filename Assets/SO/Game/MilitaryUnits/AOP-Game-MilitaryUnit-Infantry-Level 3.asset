@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitName: 'Senior Infarnity '
   UnitDesc: Strikes enemies with Hammer
-  UnitIcon: {fileID: 972163508, guid: 0c9927213b65f484d9d893503e4d2000, type: 3}
+  UnitIcon: {fileID: -6066236442320969475, guid: 0c9927213b65f484d9d893503e4d2000,
+    type: 3}
   Prefab:
     m_AssetGUID: 533735668ba874363bc18280fdaa89df
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   MaxHealth: 10
-  ProductionTime: 5
+  ProductionTime: 2
   AttackDistance: 1
   AttackRate: 1
   StrikePower: 10

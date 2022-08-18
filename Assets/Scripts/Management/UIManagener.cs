@@ -59,7 +59,6 @@ namespace AOP.Management
             await task;
             currentMasterWindow = task.Result;
             currentMasterWindow.Show(true);
-            ShowHideLoadingWindow(false);
         }
         #endregion
 

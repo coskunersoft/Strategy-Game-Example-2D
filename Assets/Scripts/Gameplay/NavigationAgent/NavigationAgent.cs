@@ -25,6 +25,7 @@ namespace AOP.GamePlay.Navigation
         public System.Action OnMovementImposible;
 
         private Coroutine currentMovementCoroutine;
+        private Tween currentMovementTween;
 
         private void Awake()
         {
@@ -101,7 +102,9 @@ namespace AOP.GamePlay.Navigation
                 gameUnit.PlacedGridCells.ForEach(x => x.UnPlaceUnit());
                 gameUnit.Place(new List<GridCell>() { targetCell });
                 targetCell.PlaceUnit(gameUnit);
-                yield return gameUnit.transform.DOMove(gameUnit.transform.NewPositionWithCoverZAxis(targetCell.WorldPosition), 0.5f).SetEase(Ease.Linear).WaitForCompletion();
+                if (currentMovementTween != null) currentMovementTween.Kill();
+                currentMovementTween = gameUnit.transform.DOMove(gameUnit.transform.NewPositionWithCoverZAxis(targetCell.WorldPosition), 0.5f).SetEase(Ease.Linear);
+                yield return currentMovementTween.WaitForCompletion();
             }
             OnMovementCompleted?.Invoke();
             Stop();

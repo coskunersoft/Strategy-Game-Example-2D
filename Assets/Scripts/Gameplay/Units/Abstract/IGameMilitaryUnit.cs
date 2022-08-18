@@ -146,7 +146,8 @@ namespace AOP.GamePlay.Units
             var resultCell = targetCells.Find(x => ((IGameUnit)x) == this);
             targetCells = targetCells.FindAll(x => x != null);
             targetCells = targetCells.FindAll(x => x.CanPlaceUnit());
-            if(resultCell==null) resultCell= targetCells.GetRandomElement();
+            targetCells.Sort((x, y) => gameGrid.DistanceTwoCell(x, placedGridCells[0]).CompareTo(gameGrid.DistanceTwoCell(placedGridCells[0], y)));
+            if(resultCell==null&&targetCells.Count>0) resultCell= targetCells[0];
             return resultCell != null ? resultCell.cellCoordinate : Coordinate.Empity;
         }
         private bool IsEnemyInAttackRange()

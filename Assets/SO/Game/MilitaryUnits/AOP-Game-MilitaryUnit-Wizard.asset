@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitName: Merlin
   UnitDesc: Magician merlin draws attention especially with its long range attacks.
-  UnitIcon: {fileID: -1777966492, guid: 0c9927213b65f484d9d893503e4d2000, type: 3}
+  UnitIcon: {fileID: 3083089168873209362, guid: 0c9927213b65f484d9d893503e4d2000,
+    type: 3}
   Prefab:
     m_AssetGUID: 1c3896d96a67f40bbb2fd3193a530a80
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   MaxHealth: 10
-  ProductionTime: 5
-  AttackDistance: 1
+  ProductionTime: 2
+  AttackDistance: 3
   AttackRate: 1
   StrikePower: 20
   HitToEnemyParticleSO: {fileID: 11400000, guid: 59bc9ef34748b4c4b9a4fe838b22b150,

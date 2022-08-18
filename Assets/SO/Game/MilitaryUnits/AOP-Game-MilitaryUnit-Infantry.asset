@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitName: Junior Infarnity
   UnitDesc: Strikes enemies with sword
-  UnitIcon: {fileID: 1400296714, guid: 0c9927213b65f484d9d893503e4d2000, type: 3}
+  UnitIcon: {fileID: -517894308114096243, guid: 0c9927213b65f484d9d893503e4d2000,
+    type: 3}
   Prefab:
     m_AssetGUID: 7492911cd095b4170af058636f34973b
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   MaxHealth: 10
-  ProductionTime: 5
+  ProductionTime: 2
   AttackDistance: 1
   AttackRate: 1
   StrikePower: 2
