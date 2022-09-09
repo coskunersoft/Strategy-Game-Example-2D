@@ -3,5 +3,4 @@
 </br>
 
 </br>
-<a href="https://ibb.co/yfqgMfh">
-<img src="https://i.ibb.co/yfqgMfh/Ekran-Resmi-2022-08-18-03-34-21.png" alt="Ekran-Resmi-2022-08-18-03-34-21" border="0"></a>
+<img src="https://s5.gifyu.com/images/video-to-gif-converterda34beb2cc9567f6.md.gif" alt="Coskunerov" border="0"></a>
