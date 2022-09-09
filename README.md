@@ -1,5 +1,5 @@
-# Age Of Panteon is a case project 
-Age Of Panteon
+# Strategy Game Kit Example
+
 </br>
 
 </br>
