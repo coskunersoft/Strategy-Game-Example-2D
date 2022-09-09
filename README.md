@@ -1,5 +1,13 @@
 # Strategy Game Kit Example
 
+# Source
+A* Algorithm added -> Source (https://github.com/valantonini/AStar) </br>
+UI Feautes (Window System , Infinity Scroll , Unit Information Panel Etc.)</br>
+Data Structures (Contains Scriptables)</br>
+Adressable Support </br>
+Dynamic Pooling System -> Source  (<a style="color:red;" href="https://github.com/iremsevim"> <b> My Love 👩‍</b></a> ) </br>
+Attack , Healt System (Generic System)
+
 </br>
 
 </br>
